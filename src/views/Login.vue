@@ -72,10 +72,9 @@ const handleDepartmentLogin = () => {
   router.push('/workbench')
 }
 
-// 排水管网登录入口
+// 排水管网登录入口 - 跳转到检测管理
 const handleNetworkLogin = () => {
-  console.log('排水管网登录入口')
-  // TODO: 后续实现排水管网相关功能
+  router.push('/detection-management')
 }
 
 // 巡查养护登录入口

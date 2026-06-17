@@ -12,6 +12,12 @@ const routes = [
     component: () => import('@/views/Login.vue')
   },
   {
+    path: '/detection-management',
+    name: 'DetectionManagement',
+    meta: { title: '检测管理' },
+    component: () => import('@/views/detection-management/index.vue')
+  },
+  {
     path: '/',
     component: () => import('@/layouts/MainLayout.vue'),
     children: [
