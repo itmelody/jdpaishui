@@ -18,7 +18,7 @@
                   <a-button size="small"><template #icon><AppstoreOutlined /></template>图层管理</a-button>
                 </a-space>
               </template>
-              <div class="map-placeholder">
+              <div class="map-container">
                 <div class="map-legend">
                   <span class="legend-item"><span class="dot" style="background:#52c41a"></span>小雨 &lt;10mm</span>
                   <span class="legend-item"><span class="dot" style="background:#fadb14"></span>中雨 10-30mm</span>
@@ -26,9 +26,7 @@
                   <span class="legend-item"><span class="dot" style="background:#f5222d"></span>暴雨+ &gt;50mm</span>
                   <span class="legend-item"><span class="dot" style="background:#722ed1"></span>易涝点</span>
                 </div>
-                <div class="map-body">
-                  <span style="color:#bbb;font-size:14px;">🗺️ 地图可视化区域（待接入GIS）</span>
-                </div>
+                <div id="rainfall-map" class="map-body"></div>
               </div>
             </a-card>
 
@@ -215,14 +213,17 @@
             </a-card>
           </a-tab-pane>
 
-          <a-tab-pane key="waterLevel" tab="水位监测">
-            <a-empty description="水位监测功能开发中" />
+          <a-tab-pane key="pipeLevel" tab="管网水位/流量监测">
+            <a-empty description="管网水位/流量监测功能开发中" />
           </a-tab-pane>
-          <a-tab-pane key="flow" tab="流量监测">
-            <a-empty description="流量监测功能开发中" />
+          <a-tab-pane key="outletQuality" tab="排口水质监测">
+            <a-empty description="排口水质监测功能开发中" />
           </a-tab-pane>
-          <a-tab-pane key="waterQuality" tab="水质监测">
-            <a-empty description="水质监测功能开发中" />
+          <a-tab-pane key="roadFlood" tab="道路积水监测">
+            <a-empty description="道路积水监测功能开发中" />
+          </a-tab-pane>
+          <a-tab-pane key="videoMonitor" tab="视频实时监控">
+            <a-empty description="视频实时监控功能开发中" />
           </a-tab-pane>
         </a-tabs>
       </a-layout-content>
@@ -235,15 +236,16 @@ import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import { ExpandOutlined, AppstoreOutlined, DownloadOutlined, ReloadOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import * as echarts from 'echarts'
+import AMapLoader from '@amap/amap-jsapi-loader'
 
 // 左侧菜单
 const selectedMenu = ref<string[]>(['rainfall'])
 const menuItems = [
   { key: 'rainfall', label: '雨情监测' },
-  { key: 'waterLevel', label: '水位监测' },
-  { key: 'flow', label: '流量监测' },
-  { key: 'waterQuality', label: '水质监测' },
-  { key: 'device', label: '设备管理' }
+  { key: 'pipeLevel', label: '管网水位/流量监测' },
+  { key: 'outletQuality', label: '排口水质监测' },
+  { key: 'roadFlood', label: '道路积水监测' },
+  { key: 'videoMonitor', label: '视频实时监控' }
 ]
 
 const activeTab = ref<string>('realtime')
@@ -340,6 +342,93 @@ const handleReset = () => {
   message.info('已重置搜索条件')
 }
 
+// 雨量站地图数据（经纬度 + 降雨等级）
+const stationMapData = [
+  { name: '新安江站', lng: 119.2812, lat: 29.4761, rain: 42.5, level: '暴雨' },
+  { name: '洋溪站', lng: 119.3521, lat: 29.5023, rain: 56.3, level: '大暴雨' },
+  { name: '梅城站', lng: 119.4893, lat: 29.5512, rain: 22.8, level: '大雨' },
+  { name: '寿昌站', lng: 119.2156, lat: 29.3845, rain: 12.3, level: '中雨' },
+  { name: '大同站', lng: 119.1832, lat: 29.3521, rain: 5.6, level: '小雨' },
+  { name: '乾潭站', lng: 119.5234, lat: 29.5789, rain: 0.0, level: '无雨' }
+]
+
+// 根据降雨量获取标记颜色
+const getMarkerColor = (rain: number): string => {
+  if (rain >= 50) return '#f5222d'
+  if (rain >= 30) return '#fa8c16'
+  if (rain >= 10) return '#fadb14'
+  if (rain > 0) return '#52c41a'
+  return '#d9d9d9'
+}
+
+// 高德地图实例
+let amapInstance: any = null
+
+// 初始化高德地图
+const initAMap = async () => {
+  try {
+    const AMap = await AMapLoader.load({
+      key: '11ff1e3bd0d19646144e5c8e116d486c', // TODO: 替换为您的高德地图API Key
+      version: '2.0',
+      plugins: ['AMap.Scale', 'AMap.ToolBar', 'AMap.Marker']
+    })
+
+    amapInstance = new AMap.Map('rainfall-map', {
+      zoom: 11,
+      center: [119.35, 29.48], // 建德市中心
+      mapStyle: 'amap://styles/light',
+      viewMode: '2D'
+    })
+
+    // 添加控件
+    amapInstance.addControl(new AMap.Scale())
+    amapInstance.addControl(new AMap.ToolBar({ position: 'RT' }))
+
+    // 添加雨量站标记
+    stationMapData.forEach(station => {
+      const color = getMarkerColor(station.rain)
+      const markerContent = `
+        <div style="
+          background: ${color};
+          color: #fff;
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 12px;
+          white-space: nowrap;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+          border: 2px solid #fff;
+        ">
+          ☔ ${station.name}<br/>
+          <span style="font-size:11px">${station.rain}mm</span>
+        </div>
+      `
+      const marker = new AMap.Marker({
+        position: new AMap.LngLat(station.lng, station.lat),
+        content: markerContent,
+        offset: new AMap.Pixel(-40, -20)
+      })
+      marker.setMap(amapInstance)
+
+      // 点击标记显示详情
+      marker.on('click', () => {
+        const infoWindow = new AMap.InfoWindow({
+          content: `
+            <div style="padding:8px;min-width:180px">
+              <h4 style="margin:0 0 8px 0">${station.name}</h4>
+              <p style="margin:4px 0">降雨等级: <b>${station.level}</b></p>
+              <p style="margin:4px 0">小时累计: <b style="color:${color}">${station.rain} mm</b></p>
+            </div>
+          `,
+          offset: new AMap.Pixel(0, -30)
+        })
+        infoWindow.open(amapInstance, marker.getPosition())
+      })
+    })
+  } catch (e) {
+    console.error('高德地图加载失败:', e)
+  }
+}
+
 // ECharts 趋势图
 const chartRef = ref<HTMLElement | null>(null)
 let chartInstance: echarts.ECharts | null = null
@@ -361,12 +450,14 @@ const initChart = () => {
 const handleResize = () => { chartInstance?.resize() }
 
 onMounted(() => {
+  initAMap()
   initChart()
   window.addEventListener('resize', handleResize)
 })
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
   chartInstance?.dispose()
+  amapInstance?.destroy()
 })
 </script>
 
@@ -383,7 +474,7 @@ onUnmounted(() => {
   .map-card {
     margin-bottom: 12px;
 
-    .map-placeholder {
+    .map-container {
       .map-legend {
         margin-bottom: 12px;
         display: flex;
@@ -405,12 +496,8 @@ onUnmounted(() => {
       }
 
       .map-body {
-        height: 280px;
-        background: linear-gradient(135deg, #e6f7ff 0%, #f0f5ff 100%);
+        height: 380px;
         border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         border: 1px solid #d9e8f7;
       }
     }
@@ -500,28 +587,6 @@ onUnmounted(() => {
         font-size: 13px;
       }
     }
-  }
-}
-</style>
-<template>
-  <div class="realtime-monitoring">
-    <a-card title="实时监测" :bordered="false">
-      <div class="empty-state">
-        <a-empty description="实时监测内容待开发" />
-      </div>
-    </a-card>
-  </div>
-</template>
-
-<script setup lang="ts">
-// 实时监测页面
-</script>
-
-<style scoped lang="scss">
-.realtime-monitoring {
-  .empty-state {
-    padding: 60px 0;
-    text-align: center;
   }
 }
 </style>
