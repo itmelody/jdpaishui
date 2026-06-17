@@ -77,8 +77,10 @@ const selectedKeys = ref<string[]>(['workbench'])
 watch(
   () => route.path,
   (newPath) => {
-    const path = newPath.substring(1) || 'workbench'
-    selectedKeys.value = [path]
+    // 取路径第一段作为顶部菜单的选中项
+    const segments = newPath.substring(1).split('/')
+    const topMenuKey = segments[0] || 'workbench'
+    selectedKeys.value = [topMenuKey]
   },
   { immediate: true }
 )

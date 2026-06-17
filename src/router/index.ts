@@ -25,6 +25,7 @@ const routes = [
         path: 'drainage-network',
         name: 'DrainageNetwork',
         meta: { title: '排水管网监管' },
+        redirect: '/drainage-network/manhole-info',
         component: () => import('@/views/drainage-network/index.vue'),
         children: [
           {
@@ -61,31 +62,31 @@ const routes = [
             path: 'unit-basic',
             name: 'UnitBasic',
             meta: { title: '检测单位基础信息' },
-            component: () => import('@/views/drainage-network/index.vue')
+            component: () => import('@/views/drainage-network/unit-basic.vue')
           },
           {
             path: 'unit-personnel',
             name: 'UnitPersonnel',
             meta: { title: '检测单位人员信息' },
-            component: () => import('@/views/drainage-network/index.vue')
+            component: () => import('@/views/drainage-network/unit-personnel.vue')
           },
           {
             path: 'data-stats',
             name: 'DataStats',
             meta: { title: '排水管网数据统计' },
-            component: () => import('@/views/drainage-network/index.vue')
+            component: () => import('@/views/drainage-network/data-stats.vue')
           },
           {
             path: 'progress-stats-detail',
             name: 'ProgressStatsDetail',
             meta: { title: '排查进度情况统计' },
-            component: () => import('@/views/drainage-network/index.vue')
+            component: () => import('@/views/drainage-network/progress-stats-detail.vue')
           },
           {
             path: 'rectification-analysis',
             name: 'RectificationAnalysis',
             meta: { title: '隐患整治结果分析' },
-            component: () => import('@/views/drainage-network/index.vue')
+            component: () => import('@/views/drainage-network/rectification-analysis.vue')
           }
         ]
       },
