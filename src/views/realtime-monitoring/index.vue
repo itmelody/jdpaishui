@@ -214,16 +214,16 @@
           </a-tab-pane>
 
           <a-tab-pane key="pipeLevel" tab="管网水位/流量监测">
-            <a-empty description="管网水位/流量监测功能开发中" />
+            <PipeMonitor />
           </a-tab-pane>
           <a-tab-pane key="outletQuality" tab="排口水质监测">
-            <a-empty description="排口水质监测功能开发中" />
+            <OutletQuality />
           </a-tab-pane>
           <a-tab-pane key="roadFlood" tab="道路积水监测">
             <a-empty description="道路积水监测功能开发中" />
           </a-tab-pane>
           <a-tab-pane key="videoMonitor" tab="视频实时监控">
-            <a-empty description="视频实时监控功能开发中" />
+            <VideoMonitor />
           </a-tab-pane>
         </a-tabs>
       </a-layout-content>
@@ -237,6 +237,9 @@ import { ExpandOutlined, AppstoreOutlined, DownloadOutlined, ReloadOutlined, Edi
 import { message } from 'ant-design-vue'
 import * as echarts from 'echarts'
 import AMapLoader from '@amap/amap-jsapi-loader'
+import PipeMonitor from './pipe-monitor.vue'
+import OutletQuality from './outlet-quality.vue'
+import VideoMonitor from './video-monitor.vue'
 
 // 左侧菜单
 const selectedMenu = ref<string[]>(['rainfall'])
