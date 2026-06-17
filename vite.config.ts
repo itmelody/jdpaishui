@@ -6,6 +6,16 @@ import path from 'path'
 export default defineConfig({
   plugins: [vue()],
   base: '/jdpaishui/',
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    }
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
