@@ -155,7 +155,7 @@
           
           <!-- 排水许可管理标签页 -->
           <a-tab-pane key="permit" tab="排水许可管理">
-            <DevelopmentPlaceholder />
+            <PermitManagement />
           </a-tab-pane>
           
           <!-- 在线水质监测标签页 -->
@@ -188,6 +188,7 @@ import { ref, reactive } from 'vue'
 import { SearchOutlined, ReloadOutlined, PlusOutlined, DownloadOutlined, UploadOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import { message, Modal } from 'ant-design-vue'
 import DevelopmentPlaceholder from '../inspection-maintenance/DevelopmentPlaceholder.vue'
+import PermitManagement from './permit-management.vue'
 
 // 左侧菜单配置
 const selectedMenu = ref<string[]>(['archive'])
