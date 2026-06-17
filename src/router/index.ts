@@ -3,7 +3,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    redirect: '/workbench'
+    redirect: '/login'
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    meta: { title: '登录' },
+    component: () => import('@/views/Login.vue')
   },
   {
     path: '/',
