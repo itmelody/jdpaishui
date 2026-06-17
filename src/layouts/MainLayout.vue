@@ -44,6 +44,16 @@
       </div>
       <div class="header-right">
         <span class="user-info">管理员</span>
+        <a-button 
+          type="text" 
+          class="logout-btn"
+          @click="handleLogout"
+        >
+          <template #icon>
+            <LogoutOutlined />
+          </template>
+          退出
+        </a-button>
       </div>
     </a-layout-header>
 
@@ -57,6 +67,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { LogoutOutlined } from '@ant-design/icons-vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -75,6 +86,13 @@ watch(
 // 菜单点击事件
 const handleMenuClick = ({ key }: { key: string }) => {
   router.push(`/${key}`)
+}
+
+// 退出登录
+const handleLogout = () => {
+  // TODO: 这里可以清除用户信息、token等
+  // 跳转到登录页
+  router.push('/login')
 }
 </script>
 
@@ -149,10 +167,32 @@ const handleMenuClick = ({ key }: { key: string }) => {
   }
   
   .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    
     .user-info {
       color: white;
       font-size: 14px;
-      padding: 0 16px;
+      padding: 0 8px;
+    }
+    
+    .logout-btn {
+      color: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+      padding: 4px 12px;
+      transition: all 0.3s;
+      
+      &:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+      
+      :deep(.anticon) {
+        margin-right: 4px;
+      }
     }
   }
 }

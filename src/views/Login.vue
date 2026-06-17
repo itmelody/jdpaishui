@@ -105,10 +105,12 @@ const handleInspectionLogin = () => {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, #0a1628 0%, #1e3c72 50%, #2a5298 100%);
-    background-image: url('@/assets/images/login-bg.jpg');
+    background: 
+      linear-gradient(135deg, rgba(10, 22, 40, 0.7) 0%, rgba(30, 60, 114, 0.6) 50%, rgba(42, 82, 152, 0.7) 100%),
+      url('@/assets/bg.png');
     background-size: cover;
     background-position: center;
+    background-blend-mode: overlay;
     
     &::before {
       content: '';
@@ -117,7 +119,23 @@ const handleInspectionLogin = () => {
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.3);
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(24, 144, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(82, 196, 26, 0.1) 0%, transparent 50%);
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      opacity: 0.5;
     }
   }
 
