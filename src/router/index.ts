@@ -31,13 +31,13 @@ const routes = [
             path: 'manhole-info',
             name: 'ManholeInfo',
             meta: { title: '井盖基础信息' },
-            component: () => import('@/views/drainage-network/index.vue')
+            component: () => import('@/views/drainage-network/manhole-info.vue')
           },
           {
             path: 'pipe-section-info',
             name: 'PipeSectionInfo',
             meta: { title: '管段基础信息' },
-            component: () => import('@/views/drainage-network/index.vue')
+            component: () => import('@/views/drainage-network/pipe-section-info.vue')
           },
           {
             path: 'network-map',
@@ -49,13 +49,13 @@ const routes = [
             path: 'detection-result',
             name: 'DetectionResult',
             meta: { title: '检测结果信息' },
-            component: () => import('@/views/drainage-network/index.vue')
+            component: () => import('@/views/drainage-network/detection-result.vue')
           },
           {
             path: 'hidden-danger',
             name: 'HiddenDanger',
             meta: { title: '隐患数据信息' },
-            component: () => import('@/views/drainage-network/index.vue')
+            component: () => import('@/views/drainage-network/hidden-danger.vue')
           },
           {
             path: 'unit-basic',
