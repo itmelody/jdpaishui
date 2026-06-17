@@ -25,7 +25,69 @@ const routes = [
         path: 'drainage-network',
         name: 'DrainageNetwork',
         meta: { title: '排水管网监管' },
-        component: () => import('@/views/drainage-network/index.vue')
+        component: () => import('@/views/drainage-network/index.vue'),
+        children: [
+          {
+            path: 'manhole-info',
+            name: 'ManholeInfo',
+            meta: { title: '井盖基础信息' },
+            component: () => import('@/views/drainage-network/index.vue')
+          },
+          {
+            path: 'pipe-section-info',
+            name: 'PipeSectionInfo',
+            meta: { title: '管段基础信息' },
+            component: () => import('@/views/drainage-network/index.vue')
+          },
+          {
+            path: 'network-map',
+            name: 'NetworkMap',
+            meta: { title: '排水管网地图' },
+            component: () => import('@/views/drainage-network/index.vue')
+          },
+          {
+            path: 'detection-result',
+            name: 'DetectionResult',
+            meta: { title: '检测结果信息' },
+            component: () => import('@/views/drainage-network/index.vue')
+          },
+          {
+            path: 'hidden-danger',
+            name: 'HiddenDanger',
+            meta: { title: '隐患数据信息' },
+            component: () => import('@/views/drainage-network/index.vue')
+          },
+          {
+            path: 'unit-basic',
+            name: 'UnitBasic',
+            meta: { title: '检测单位基础信息' },
+            component: () => import('@/views/drainage-network/index.vue')
+          },
+          {
+            path: 'unit-personnel',
+            name: 'UnitPersonnel',
+            meta: { title: '检测单位人员信息' },
+            component: () => import('@/views/drainage-network/index.vue')
+          },
+          {
+            path: 'data-stats',
+            name: 'DataStats',
+            meta: { title: '排水管网数据统计' },
+            component: () => import('@/views/drainage-network/index.vue')
+          },
+          {
+            path: 'progress-stats-detail',
+            name: 'ProgressStatsDetail',
+            meta: { title: '排查进度情况统计' },
+            component: () => import('@/views/drainage-network/index.vue')
+          },
+          {
+            path: 'rectification-analysis',
+            name: 'RectificationAnalysis',
+            meta: { title: '隐患整治结果分析' },
+            component: () => import('@/views/drainage-network/index.vue')
+          }
+        ]
       },
       {
         path: 'drainage-user',

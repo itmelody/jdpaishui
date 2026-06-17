@@ -7,7 +7,7 @@
           <div class="stat-content">
             <div class="stat-info">
               <div class="stat-label">管网总长度</div>
-              <div class="stat-value">1,258 <span class="unit">公</span></div>
+              <div class="stat-value">1,258 <span class="unit">公里</span></div>
               <div class="stat-trend up">
                 <ArrowUpOutlined /> 2.5% <span class="trend-text">较上月</span>
               </div>
@@ -55,7 +55,7 @@
           <div class="stat-content">
             <div class="stat-info">
               <div class="stat-label">运行设备</div>
-              <div class="stat-value">156 <span class="unit">/</span></div>
+              <div class="stat-value">156 <span class="unit">/</span>  163</div>
               <div class="stat-trend up">
                 <CheckCircleOutlined /> 98% <span class="trend-text">在线率</span>
               </div>
