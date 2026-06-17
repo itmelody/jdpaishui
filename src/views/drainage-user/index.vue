@@ -160,12 +160,12 @@
           
           <!-- 在线水质监测标签页 -->
           <a-tab-pane key="monitoring" tab="在线水质监测">
-            <DevelopmentPlaceholder />
+            <WaterQualityMonitor />
           </a-tab-pane>
           
           <!-- 执法巡检登记标签页 -->
           <a-tab-pane key="inspection" tab="执法巡检登记">
-            <DevelopmentPlaceholder />
+            <InspectionRegistration />
           </a-tab-pane>
           
           <!-- 违规排污取证标签页 -->
@@ -189,6 +189,8 @@ import { SearchOutlined, ReloadOutlined, PlusOutlined, DownloadOutlined, UploadO
 import { message, Modal } from 'ant-design-vue'
 import DevelopmentPlaceholder from '../inspection-maintenance/DevelopmentPlaceholder.vue'
 import PermitManagement from './permit-management.vue'
+import WaterQualityMonitor from './water-quality-monitor.vue'
+import InspectionRegistration from './inspection-registration.vue'
 
 // 左侧菜单配置
 const selectedMenu = ref<string[]>(['archive'])
