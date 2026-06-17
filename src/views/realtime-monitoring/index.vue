@@ -9,7 +9,7 @@
       <!-- 右侧内容区 -->
       <a-layout-content class="content-wrapper">
         <a-tabs v-model:activeKey="activeTab" :bordered="false">
-          <a-tab-pane key="realtime" tab="实时监测">
+          <a-tab-pane key="rainfall" tab="雨情监测">
             <!-- 地图区域 -->
             <a-card title="全域降雨热力分布图" :bordered="false" class="map-card">
               <template #extra>
@@ -232,7 +232,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, watch, onMounted, onUnmounted } from 'vue'
 import { ExpandOutlined, AppstoreOutlined, DownloadOutlined, ReloadOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import * as echarts from 'echarts'
@@ -251,7 +251,19 @@ const menuItems = [
   { key: 'videoMonitor', label: '视频实时监控' }
 ]
 
-const activeTab = ref<string>('realtime')
+const activeTab = ref<string>('rainfall')
+
+// 监听菜单选择，联动标签页
+watch(selectedMenu, (keys) => {
+  if (keys.length > 0) {
+    activeTab.value = keys[0]
+  }
+})
+
+// 监听标签页切换，联动菜单
+watch(activeTab, (key) => {
+  selectedMenu.value = [key]
+})
 
 // 筛选表单
 const searchForm = reactive({
