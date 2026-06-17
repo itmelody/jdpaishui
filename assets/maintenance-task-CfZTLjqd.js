@@ -1,0 +1,1 @@
+import{P as e,m as t,t as n,v as r,y as i}from"./_plugin-vue_export-helper-Cff05r51.js";import{t as a}from"./MaintenanceTaskContent-BFX4M5GP.js";var o={class:`maintenance-task-page`},s=n(i({__name:`maintenance-task`,setup(n){return(n,i)=>(e(),t(`div`,o,[r(a)]))}}),[[`__scopeId`,`data-v-20e69fd6`]]);export{s as default};
