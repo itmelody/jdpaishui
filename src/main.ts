@@ -12,6 +12,6 @@ const pinia = createPinia()
 
 app.use(pinia)
 app.use(router)
-app.use(Antd, { theme: antdThemeConfig })
+app.use(Antd)
 
 app.mount('#app')
