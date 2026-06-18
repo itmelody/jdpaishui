@@ -66,10 +66,11 @@
           </a-col>
           
           <a-col :span="6">
-            <a-form-item label="更新时间:">
+            <a-form-item label="更新时间:" class="nowrap-item">
               <a-range-picker 
                 v-model:value="searchForm.updateTime" 
                 :placeholder="['开始日期', '结束日期']"
+                style="width: 200px;"
               />
             </a-form-item>
           </a-col>
@@ -92,18 +93,20 @@
               </a-radio-group>
             </a-form-item>
           </a-col>
+
+          <a-col :span="6">
+            <a-form-item class="inline-buttons">
+              <a-space>
+                <a-button type="primary">
+                  <search-outlined /> 搜索
+                </a-button>
+                <a-button>
+                  <reload-outlined /> 重置
+                </a-button>
+              </a-space>
+            </a-form-item>
+          </a-col>
         </a-row>
-        
-        <a-form-item>
-          <a-space>
-            <a-button type="primary">
-              <search-outlined /> 搜索
-            </a-button>
-            <a-button>
-              <reload-outlined /> 重置
-            </a-button>
-          </a-space>
-        </a-form-item>
       </a-form>
     </a-card>
 
@@ -405,6 +408,18 @@ const pagination = reactive({
           font-size: 14px;
           color: #666;
         }
+      }
+
+      .nowrap-item {
+        :deep(.ant-form-item-control-input-content) {
+          white-space: nowrap;
+        }
+      }
+
+      .inline-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
       }
     }
   }

@@ -1,37 +1,9 @@
 <template>
-  <div class="warning-rule-config-page">
-    <!-- 左侧侧边栏 -->
-    <div class="sidebar">
-      <a-menu
-        v-model:selectedKeys="selectedMenu"
-        mode="vertical"
-        @click="handleMenuClick"
-        class="side-menu"
-      >
-        <a-menu-item key="warning-management">
-          <span>预警管理</span>
-        </a-menu-item>
-        <a-menu-item key="rule-config">
-          <span>预警规则配置</span>
-        </a-menu-item>
-        <a-menu-item key="workflow-tracking">
-          <span>工单全流程跟踪</span>
-        </a-menu-item>
-        <a-menu-item key="overdue-supervision">
-          <span>逾期督办</span>
-        </a-menu-item>
-        <a-menu-item key="statistics-review">
-          <span>工单统计复盘</span>
-        </a-menu-item>
-      </a-menu>
+  <div class="warning-rule-config">
+    <!-- 页面标题 -->
+    <div class="page-header">
+      <h2 class="page-title">预警规则配置</h2>
     </div>
-
-    <!-- 右侧内容区域 -->
-    <div class="main-content">
-      <!-- 页面标题 -->
-      <div class="page-header">
-        <h2 class="page-title">预警规则配置</h2>
-      </div>
 
       <!-- 标签页 -->
       <a-tabs v-model:activeKey="activeTab" class="config-tabs">
@@ -401,13 +373,11 @@
           </a-button>
         </a-space>
       </div>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
 import {
   SettingOutlined,
   SlidersOutlined,
@@ -425,26 +395,6 @@ import {
   StopOutlined
 } from '@ant-design/icons-vue'
 
-const router = useRouter()
-
-// 左侧菜单
-const selectedMenu = ref<string[]>(['rule-config'])
-
-const handleMenuClick = (e: any) => {
-  const routeMap: Record<string, string> = {
-    'warning-management': '/warning-workorder',
-    'rule-config': '/warning-workorder/rule-config',
-    'workflow-tracking': '/warning-workorder/workflow-tracking',
-    'overdue-supervision': '/warning-workorder/overdue-supervision',
-    'statistics-review': '/warning-workorder/statistics-review'
-  }
-  
-  if (routeMap[e.key]) {
-    router.push(routeMap[e.key])
-  }
-}
-
-// 标签页
 const activeTab = ref('water-level')
 
 // 基础配置
@@ -552,58 +502,11 @@ const historyData = ref([
 </script>
 
 <style scoped lang="scss">
-.warning-rule-config-page {
-  display: flex;
-  height: calc(100vh - 64px);
-  background: #f0f2f5;
-
-  // 左侧侧边栏
-  .sidebar {
-    width: 200px;
-    background: #fff;
-    border-right: 1px solid #e8e8e8;
-    padding: 16px 0;
-
-    .side-menu {
-      border-right: none;
-
-      :deep(.ant-menu-item) {
-        margin: 0;
-        padding: 0 24px;
-        height: 48px;
-        line-height: 48px;
-        font-size: 14px;
-
-        &.ant-menu-item-selected {
-          background-color: #e6f7ff;
-          color: #1890ff;
-          border-left: 3px solid #1890ff;
-          padding-left: 21px;
-        }
-
-        &:hover {
-          background-color: #f5f5f5;
-        }
-      }
-    }
+.warning-rule-config {
+  .page-header {
+    margin-bottom: 16px;
+    .page-title { margin: 0; font-size: 18px; font-weight: 600; color: #333; }
   }
-
-  // 右侧内容区域
-  .main-content {
-    flex: 1;
-    padding: 16px;
-    overflow-y: auto;
-
-    .page-header {
-      margin-bottom: 16px;
-
-      .page-title {
-        margin: 0;
-        font-size: 18px;
-        font-weight: 600;
-        color: #333;
-      }
-    }
 
     .config-tabs {
       margin-bottom: 16px;
@@ -752,12 +655,8 @@ const historyData = ref([
       .selected-count {
         font-size: 14px;
         color: #666;
-
-        strong {
-          color: #1890ff;
-        }
+        strong { color: #1890ff; }
       }
     }
-  }
 }
 </style>

@@ -127,12 +127,6 @@ const routes = [
         component: () => import('@/views/warning-workorder/index.vue')
       },
       {
-        path: 'warning-workorder/rule-config',
-        name: 'WarningRuleConfig',
-        meta: { title: '预警规则配置' },
-        component: () => import('@/views/warning-workorder/rule-config.vue')
-      },
-      {
         path: 'realtime-monitoring',
         name: 'RealtimeMonitoring',
         meta: { title: '实时监测' },

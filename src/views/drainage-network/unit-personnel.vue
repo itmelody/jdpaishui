@@ -8,40 +8,38 @@
     <!-- 搜索表单 -->
     <a-card :bordered="false" class="search-card">
       <a-form :model="searchForm" layout="inline" class="search-form">
-        <!-- 第一行 -->
-        <a-row :gutter="[16, 12]">
-          <a-col :span="5">
+        <a-row :gutter="[16, 16]">
+          <!-- 第一行 -->
+          <a-col :span="6">
             <a-form-item label="检测单位:">
               <a-input v-model:value="searchForm.unitName" placeholder="请输入检测单位" />
             </a-form-item>
           </a-col>
-          <a-col :span="5">
+          <a-col :span="6">
             <a-form-item label="所属区域:">
               <a-select v-model:value="searchForm.area" placeholder="请选择">
                 <a-select-option value="hangzhou-jd">杭州市 / 建德市</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="5">
+          <a-col :span="6">
             <a-form-item label="信用代码:">
               <a-input v-model:value="searchForm.creditCode" placeholder="请输入统一社会信用代码" />
             </a-form-item>
           </a-col>
-          <a-col :span="4">
+          <a-col :span="6">
             <a-form-item label="姓名:">
               <a-input v-model:value="searchForm.name" placeholder="请输入姓名" />
             </a-form-item>
           </a-col>
-          <a-col :span="5">
+
+          <!-- 第二行 -->
+          <a-col :span="6">
             <a-form-item label="身份证:">
               <a-input v-model:value="searchForm.idCard" placeholder="请输入身份证号码" />
             </a-form-item>
           </a-col>
-        </a-row>
-
-        <!-- 第二行 -->
-        <a-row :gutter="[16, 12]">
-          <a-col :span="5">
+          <a-col :span="4">
             <a-form-item label="工种:">
               <a-select v-model:value="searchForm.jobType" placeholder="请选择工种">
                 <a-select-option value="operator">操作人员</a-select-option>
@@ -51,7 +49,7 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="5">
+          <a-col :span="4">
             <a-form-item label="学历:">
               <a-select v-model:value="searchForm.education" placeholder="请选择学历">
                 <a-select-option value="high">高中</a-select-option>
@@ -62,7 +60,7 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="5">
+          <a-col :span="4">
             <a-form-item label="人员状态:">
               <a-select v-model:value="searchForm.personnelStatus" placeholder="请选择人员状态">
                 <a-select-option value="active">启用</a-select-option>
@@ -70,18 +68,19 @@
               </a-select>
             </a-form-item>
           </a-col>
+          <a-col :span="6">
+            <a-form-item class="inline-buttons">
+              <a-space>
+                <a-button type="primary" @click="handleSearch">
+                  <SearchOutlined /> 搜索
+                </a-button>
+                <a-button @click="handleReset">
+                  <ReloadOutlined /> 重置
+                </a-button>
+              </a-space>
+            </a-form-item>
+          </a-col>
         </a-row>
-
-        <a-form-item class="search-buttons">
-          <a-space>
-            <a-button type="primary" @click="handleSearch">
-              <SearchOutlined /> 搜索
-            </a-button>
-            <a-button @click="handleReset">
-              <ReloadOutlined /> 重置
-            </a-button>
-          </a-space>
-        </a-form-item>
       </a-form>
     </a-card>
 
@@ -276,36 +275,17 @@ const handleDelete = (record: any) => {
     margin-bottom: 12px;
 
     .search-form {
-      :deep(.ant-form-item) {
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-      }
-
       :deep(.ant-form-item-label) {
-        flex-shrink: 0;
-        min-width: 80px;
-        text-align: right;
-
         label {
           font-size: 14px;
           color: #666;
         }
       }
 
-      :deep(.ant-form-item-control) {
-        flex: 1;
-      }
-
-      :deep(.ant-input),
-      :deep(.ant-select) {
-        width: 100%;
-      }
-
-      .search-buttons {
-        width: 100%;
-        text-align: right;
-        margin-top: 4px;
+      .inline-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
       }
     }
   }

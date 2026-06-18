@@ -8,7 +8,7 @@
     <!-- 搜索表单 -->
     <a-card :bordered="false" class="search-card">
       <a-form :model="searchForm" layout="inline" class="search-form">
-        <a-row :gutter="[16, 12]">
+        <a-row :gutter="[16, 16]">
           <a-col :span="6">
             <a-form-item label="单位名称:">
               <a-input v-model:value="searchForm.unitName" placeholder="请输入单位名称" />
@@ -35,10 +35,6 @@
               </a-select>
             </a-form-item>
           </a-col>
-        </a-row>
-
-        <!-- 扩展筛选项 -->
-        <a-row :gutter="[16, 12]" class="extra-filters">
           <a-col :span="6">
             <a-form-item label="合同状态:">
               <a-checkbox v-model:checked="searchForm.expiredContract">筛选已到期合同</a-checkbox>
@@ -49,18 +45,20 @@
               <a-checkbox v-model:checked="searchForm.pendingSync">筛选待同步数据</a-checkbox>
             </a-form-item>
           </a-col>
+          <a-col :span="6" />
+          <a-col :span="6">
+            <a-form-item class="inline-buttons">
+              <a-space>
+                <a-button type="primary" @click="handleSearch">
+                  <SearchOutlined /> 搜索
+                </a-button>
+                <a-button @click="handleReset">
+                  <ReloadOutlined /> 重置
+                </a-button>
+              </a-space>
+            </a-form-item>
+          </a-col>
         </a-row>
-
-        <a-form-item class="search-buttons">
-          <a-space>
-            <a-button type="primary" @click="handleSearch">
-              <SearchOutlined /> 搜索
-            </a-button>
-            <a-button @click="handleReset">
-              <ReloadOutlined /> 重置
-            </a-button>
-          </a-space>
-        </a-form-item>
       </a-form>
     </a-card>
 
@@ -224,40 +222,17 @@ const handleVoid = (record: any) => {
     margin-bottom: 12px;
 
     .search-form {
-      :deep(.ant-form-item) {
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-      }
-
       :deep(.ant-form-item-label) {
-        flex-shrink: 0;
-        min-width: 130px;
-        text-align: right;
-
         label {
           font-size: 14px;
           color: #666;
         }
       }
 
-      :deep(.ant-form-item-control) {
-        flex: 1;
-      }
-
-      :deep(.ant-input),
-      :deep(.ant-select) {
-        width: 100%;
-      }
-
-      .extra-filters {
-        margin-top: 0;
-      }
-
-      .search-buttons {
-        width: 100%;
-        text-align: right;
-        margin-top: 4px;
+      .inline-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
       }
     }
   }

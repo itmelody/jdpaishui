@@ -9,29 +9,29 @@
     <a-card :bordered="false" class="search-card">
       <a-form :model="searchForm" layout="inline" class="search-form">
         <a-row :gutter="[16, 16]">
-          <a-col :span="8">
+          <a-col :span="6">
             <a-form-item label="编号:">
               <a-input v-model:value="searchForm.code" placeholder="请输入..." />
             </a-form-item>
           </a-col>
-          <a-col :span="8">
+          <a-col :span="6">
             <a-form-item label="项目编号:">
               <a-input v-model:value="searchForm.projectCode" placeholder="请输入..." />
             </a-form-item>
           </a-col>
-          <a-col :span="8">
+          <a-col :span="6">
             <a-form-item label="所属地区:">
               <a-select v-model:value="searchForm.area" placeholder="请选择...">
                 <a-select-option value="hangzhou-jd">杭州市 / 建德市</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="8">
+          <a-col :span="6">
             <a-form-item label="登记人:">
               <a-input v-model:value="searchForm.registrar" placeholder="请输入..." />
             </a-form-item>
           </a-col>
-          <a-col :span="8">
+          <a-col :span="6">
             <a-form-item label="审核状态:">
               <a-select v-model:value="searchForm.auditStatus" placeholder="请选择...">
                 <a-select-option value="pending">待审核</a-select-option>
@@ -40,21 +40,12 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="8">
-            <a-form-item label="检测日期:">
-              <a-range-picker
-                v-model:value="searchForm.detectionDate"
-                :placeholder="['开始日期', '结束日期']"
-                style="width: 100%"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
+          <a-col :span="6">
             <a-form-item label="检测单位:">
               <a-input v-model:value="searchForm.detectionUnit" placeholder="请输入..." />
             </a-form-item>
           </a-col>
-          <a-col :span="8">
+          <a-col :span="6">
             <a-form-item label="检测方式:">
               <a-select v-model:value="searchForm.detectionMethod" placeholder="请选择...">
                 <a-select-option value="cctv">电视检测 (CCTV)</a-select-option>
@@ -63,7 +54,7 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="8">
+          <a-col :span="6">
             <a-form-item label="是否存在问题隐患:">
               <a-select v-model:value="searchForm.hasDanger" placeholder="请选择...">
                 <a-select-option value="yes">是</a-select-option>
@@ -71,23 +62,33 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="8">
+          <a-col :span="12">
+            <a-form-item label="检测日期:" class="nowrap-item">
+              <a-range-picker
+                v-model:value="searchForm.detectionDate"
+                :placeholder="['开始日期', '结束日期']"
+                style="width: 320px;"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
             <a-form-item label="未上传照片隐患:">
-              <a-checkbox v-model:checked="searchForm.noPhotoDanger">启用筛选</a-checkbox>
+              <a-checkbox v-model:checked="searchForm.noPhotoDanger" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item class="inline-buttons">
+              <a-space>
+                <a-button type="primary" @click="handleSearch">
+                  <SearchOutlined /> 搜索
+                </a-button>
+                <a-button @click="handleReset">
+                  <ReloadOutlined /> 重置
+                </a-button>
+              </a-space>
             </a-form-item>
           </a-col>
         </a-row>
-
-        <a-form-item class="search-buttons">
-          <a-space>
-            <a-button type="primary" @click="handleSearch">
-              <SearchOutlined /> 搜索
-            </a-button>
-            <a-button @click="handleReset">
-              <ReloadOutlined /> 重置
-            </a-button>
-          </a-space>
-        </a-form-item>
       </a-form>
     </a-card>
 
@@ -337,37 +338,23 @@ const handleAudit = (record: any) => {
     margin-bottom: 12px;
 
     .search-form {
-      :deep(.ant-form-item) {
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-      }
-
       :deep(.ant-form-item-label) {
-        flex-shrink: 0;
-        min-width: 100px;
-        text-align: right;
-
         label {
           font-size: 14px;
           color: #666;
         }
       }
 
-      :deep(.ant-form-item-control) {
-        flex: 1;
+      .nowrap-item {
+        :deep(.ant-form-item-control-input-content) {
+          white-space: nowrap;
+        }
       }
 
-      :deep(.ant-input),
-      :deep(.ant-select),
-      :deep(.ant-picker) {
-        width: 100%;
-      }
-
-      .search-buttons {
-        width: 100%;
-        text-align: right;
-        margin-top: 4px;
+      .inline-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
       }
     }
   }
