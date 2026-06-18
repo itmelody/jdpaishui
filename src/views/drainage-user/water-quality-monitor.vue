@@ -11,20 +11,20 @@
         <a-tab-pane key="hourly" tab="出水小时数据（生态）">
           <!-- 筛选条件 -->
           <a-form :model="searchForm" layout="inline" class="search-form">
-            <a-row :gutter="[16, 12]" align="middle">
-              <a-col :span="6">
+            <a-row :gutter="[16, 16]">
+              <a-col :span="8">
                 <a-form-item label="归属地区:">
-                  <a-select v-model:value="searchForm.region" placeholder="请选择" allow-clear>
+                  <a-select v-model:value="searchForm.region" placeholder="请选择" allow-clear class="region-select">
                     <a-select-option value="jiande">浙江省 / 杭州市 / 建德市</a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
               <a-col :span="6">
                 <a-form-item label="企业名称:">
-                  <a-input v-model:value="searchForm.companyName" placeholder="请输入名称" allow-clear />
+                  <a-input v-model:value="searchForm.companyName" placeholder="请输入" allow-clear />
                 </a-form-item>
               </a-col>
-              <a-col :span="8">
+              <a-col :span="6">
                 <a-form-item label="数据采集时间:">
                   <a-range-picker
                     v-model:value="searchForm.dateRange"
@@ -34,16 +34,18 @@
                 </a-form-item>
               </a-col>
               <a-col :span="4">
-                <a-space>
-                  <a-button type="primary" @click="handleSearch">
-                    <template #icon><SearchOutlined /></template>
-                    搜索
-                  </a-button>
-                  <a-button @click="handleReset">
-                    <template #icon><ReloadOutlined /></template>
-                    重置
-                  </a-button>
-                </a-space>
+                <a-form-item class="inline-buttons">
+                  <a-space>
+                    <a-button type="primary" @click="handleSearch">
+                      <template #icon><SearchOutlined /></template>
+                      搜索
+                    </a-button>
+                    <a-button @click="handleReset">
+                      <template #icon><ReloadOutlined /></template>
+                      重置
+                    </a-button>
+                  </a-space>
+                </a-form-item>
               </a-col>
             </a-row>
           </a-form>
@@ -68,38 +70,37 @@
             </template>
           </a-table>
 
-          <!-- 图表预留区域 -->
-          <div class="chart-placeholder">
-            <span class="placeholder-text"></span>
-          </div>
+
         </a-tab-pane>
 
         <a-tab-pane key="docking" tab="数据对接情况">
           <!-- 筛选条件 -->
           <a-form :model="dockingForm" layout="inline" class="search-form">
-            <a-row :gutter="[16, 12]" align="middle">
-              <a-col :span="6">
+            <a-row :gutter="[16, 16]">
+              <a-col :span="8">
                 <a-form-item label="归属地区:">
-                  <a-select v-model:value="dockingForm.region" placeholder="请选择" allow-clear>
+                  <a-select v-model:value="dockingForm.region" placeholder="请选择" allow-clear class="region-select">
                     <a-select-option value="jiande">浙江省 / 杭州市 / 建德市</a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col :span="18">
-                <a-space>
-                  <a-button style="background: #FA8C16; color: #fff; border-color: #FA8C16;" @click="handleDockingExport">
-                    <template #icon><ExportOutlined /></template>
-                    导出
-                  </a-button>
-                  <a-button type="primary" @click="handleDockingSearch">
-                    <template #icon><SearchOutlined /></template>
-                    搜索
-                  </a-button>
-                  <a-button @click="handleDockingReset">
-                    <template #icon><ReloadOutlined /></template>
-                    重置
-                  </a-button>
-                </a-space>
+              <a-col :span="16">
+                <a-form-item class="inline-buttons" style="text-align: right;">
+                  <a-space>
+                    <a-button style="background: #FA8C16; color: #fff; border-color: #FA8C16;" @click="handleDockingExport">
+                      <template #icon><ExportOutlined /></template>
+                      导出
+                    </a-button>
+                    <a-button type="primary" @click="handleDockingSearch">
+                      <template #icon><SearchOutlined /></template>
+                      搜索
+                    </a-button>
+                    <a-button @click="handleDockingReset">
+                      <template #icon><ReloadOutlined /></template>
+                      重置
+                    </a-button>
+                  </a-space>
+                </a-form-item>
               </a-col>
             </a-row>
           </a-form>
@@ -283,19 +284,73 @@ const handleDockingTableChange = (pag: any) => {
 
     .search-form {
       margin-bottom: 16px;
-      padding: 16px 0;
-      background: #fafafa;
-      border-radius: 4px;
-      padding-left: 16px;
-      padding-right: 16px;
+
+      :deep(.ant-row) {
+        align-items: flex-start;
+      }
 
       :deep(.ant-form-item) {
-        margin-bottom: 12px;
-        width: 100%;
+        margin-bottom: 0;
       }
 
       :deep(.ant-form-item-label) {
         font-size: 14px;
+        white-space: nowrap;
+        flex: 0 0 auto !important;
+        width: auto !important;
+        max-width: none !important;
+        text-align: left;
+        padding-right: 8px;
+      }
+
+      :deep(.ant-form-item-control) {
+        flex: 1 1 auto !important;
+        width: auto !important;
+        min-width: 0;
+
+        .ant-select,
+        .ant-input,
+        .ant-picker {
+          width: 100% !important;
+        }
+
+        .ant-form-item-control-input {
+          width: 100%;
+
+          .ant-form-item-control-input-content {
+            width: 100%;
+          }
+        }
+      }
+
+      :deep(.ant-form-item-row) {
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+      }
+
+      .inline-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+      }
+
+      // 归属地区下拉框宽度设置
+      :deep(.region-select) {
+        width: 300px !important;
+        min-width: 300px !important;
+      }
+
+      :deep(.region-select.ant-select) {
+        width: 300px !important;
+      }
+
+      :deep(.region-select .ant-select-selector) {
+        padding-right: 32px !important;
+      }
+
+      :deep(.region-select .ant-select-arrow) {
+        inset-inline-end: 11px !important;
       }
     }
 
@@ -313,21 +368,6 @@ const handleDockingTableChange = (pag: any) => {
 
       :deep(.ant-table-tbody > tr > td) {
         padding: 8px;
-      }
-    }
-
-    .chart-placeholder {
-      margin-top: 20px;
-      height: 120px;
-      border: 2px dashed #faad14;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .placeholder-text {
-        color: #999;
-        font-size: 14px;
       }
     }
 

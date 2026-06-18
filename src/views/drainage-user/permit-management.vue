@@ -55,7 +55,7 @@
         </a-col>
         <a-col :span="6">
           <a-form-item label="发证日期:">
-            <a-range-picker v-model:value="searchForm.issueDateRange" style="width: 100%" />
+            <a-range-picker v-model:value="searchForm.issueDateRange" style="width: 200px" />
           </a-form-item>
         </a-col>
         <a-col :span="6">
@@ -82,16 +82,18 @@
           </a-form-item>
         </a-col>
         <a-col :span="6">
-          <a-space>
-            <a-button type="primary" @click="handleSearch">
-              <template #icon><SearchOutlined /></template>
-              搜索
-            </a-button>
-            <a-button @click="handleReset">
-              <template #icon><ReloadOutlined /></template>
-              重置
-            </a-button>
-          </a-space>
+          <a-form-item class="inline-buttons">
+            <a-space>
+              <a-button type="primary" @click="handleSearch">
+                <template #icon><SearchOutlined /></template>
+                搜索
+              </a-button>
+              <a-button @click="handleReset">
+                <template #icon><ReloadOutlined /></template>
+                重置
+              </a-button>
+            </a-space>
+          </a-form-item>
         </a-col>
       </a-row>
     </a-form>
@@ -147,7 +149,7 @@ import { message, Modal } from 'ant-design-vue'
 // 搜索表单
 const searchForm = reactive({
   applicant: '',
-  region: 'jiande',
+  region: 'jiande' as string | undefined,
   creditCode: '',
   sewageCondition: undefined as string | undefined,
   keyDrainageUser: undefined as string | undefined,
@@ -275,13 +277,14 @@ const handleTableChange = (pag: any) => {
   .search-form {
     margin-bottom: 16px;
 
-    :deep(.ant-form-item) {
-      margin-bottom: 12px;
-      width: 100%;
-    }
-
     :deep(.ant-form-item-label) {
       font-size: 14px;
+    }
+
+    .inline-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
     }
   }
 

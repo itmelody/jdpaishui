@@ -11,8 +11,8 @@
         <a-tab-pane key="all" tab="全部记录">
           <!-- 筛选条件 -->
           <a-form :model="searchForm" layout="inline" class="search-form">
-            <a-row :gutter="[16, 12]" align="middle">
-              <a-col :span="7">
+            <a-row :gutter="[16, 16]">
+              <a-col :span="6">
                 <a-form-item label="检查时间:">
                   <a-range-picker
                     v-model:value="searchForm.dateRange"
@@ -21,7 +21,7 @@
                   />
                 </a-form-item>
               </a-col>
-              <a-col :span="5">
+              <a-col :span="6">
                 <a-form-item label="检查主题:">
                   <a-select v-model:value="searchForm.topic" placeholder="请选择检查主题" allow-clear>
                     <a-select-option value="pump_daily">污水泵站日常检查</a-select-option>
@@ -30,7 +30,7 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col :span="5">
+              <a-col :span="6">
                 <a-form-item label="是否发现问题:">
                   <a-select v-model:value="searchForm.hasProblem" placeholder="请选择是否发现问题" allow-clear>
                     <a-select-option value="yes">是</a-select-option>
@@ -38,7 +38,7 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col :span="5">
+              <a-col :span="6">
                 <a-form-item label="超期未整改:">
                   <a-select v-model:value="searchForm.overdueRectification" placeholder="请选择超期未整改" allow-clear>
                     <a-select-option value="yes">是</a-select-option>
@@ -46,7 +46,7 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col :span="5">
+              <a-col :span="6">
                 <a-form-item label="问题检查:">
                   <a-select v-model:value="searchForm.problemCheck" placeholder="请选择问题检查" allow-clear>
                     <a-select-option value="yes">是</a-select-option>
@@ -54,12 +54,12 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col :span="5">
+              <a-col :span="6">
                 <a-form-item label="检查部门:">
                   <a-input v-model:value="searchForm.department" placeholder="请输入检查部门" allow-clear />
                 </a-form-item>
               </a-col>
-              <a-col :span="5">
+              <a-col :span="6">
                 <a-form-item label="检查对象类型:">
                   <a-select v-model:value="searchForm.objectType" placeholder="请选择检查对象类型" allow-clear>
                     <a-select-option value="pump_station">泵站</a-select-option>
@@ -69,32 +69,34 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col :span="5">
+              <a-col :span="6">
                 <a-form-item label="所在地区:">
                   <a-select v-model:value="searchForm.region" placeholder="请选择地区" allow-clear>
                     <a-select-option value="jiande">建德市</a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col :span="4">
-                <a-space>
-                  <a-button type="primary" @click="handleSearch">
-                    <template #icon><SearchOutlined /></template>
-                    搜索
-                  </a-button>
-                  <a-button @click="handleReset">
-                    <template #icon><ReloadOutlined /></template>
-                    重置
-                  </a-button>
-                </a-space>
+              <a-col :span="6">
+                <a-form-item>
+                  <a-checkbox v-model:checked="searchForm.supervision">督办隐患</a-checkbox>
+                </a-form-item>
+              </a-col>
+              <a-col :span="6">
+                <a-form-item class="inline-buttons">
+                  <a-space>
+                    <a-button type="primary" @click="handleSearch">
+                      <template #icon><SearchOutlined /></template>
+                      搜索
+                    </a-button>
+                    <a-button @click="handleReset">
+                      <template #icon><ReloadOutlined /></template>
+                      重置
+                    </a-button>
+                  </a-space>
+                </a-form-item>
               </a-col>
             </a-row>
           </a-form>
-
-          <!-- 督办隐患复选框 -->
-          <div class="supervision-checkbox">
-            <a-checkbox v-model:checked="searchForm.supervision">督办隐患</a-checkbox>
-          </div>
 
           <!-- 批量操作区 -->
           <div class="action-area">
@@ -317,23 +319,17 @@ const handleTableChange = (pag: any) => {
     }
 
     .search-form {
-      margin-bottom: 12px;
-      padding: 16px;
-      background: #fafafa;
-      border-radius: 4px;
-
-      :deep(.ant-form-item) {
-        margin-bottom: 12px;
-        width: 100%;
-      }
+      margin-bottom: 16px;
 
       :deep(.ant-form-item-label) {
         font-size: 14px;
       }
-    }
 
-    .supervision-checkbox {
-      margin-bottom: 12px;
+      .inline-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+      }
     }
 
     .action-area {

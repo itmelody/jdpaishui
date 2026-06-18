@@ -93,17 +93,19 @@
                   <a-input v-model:value="searchForm.sewagePlant" placeholder="请输入" allow-clear />
                 </a-form-item>
               </a-col>
-              <a-col :span="12">
-                <a-space>
-                  <a-button type="primary" @click="handleSearch">
-                    <template #icon><SearchOutlined /></template>
-                    搜索
-                  </a-button>
-                  <a-button @click="handleReset">
-                    <template #icon><ReloadOutlined /></template>
-                    重置
-                  </a-button>
-                </a-space>
+              <a-col :span="6">
+                <a-form-item class="inline-buttons">
+                  <a-space>
+                    <a-button type="primary" @click="handleSearch">
+                      <template #icon><SearchOutlined /></template>
+                      搜索
+                    </a-button>
+                    <a-button @click="handleReset">
+                      <template #icon><ReloadOutlined /></template>
+                      重置
+                    </a-button>
+                  </a-space>
+                </a-form-item>
               </a-col>
             </a-row>
           </a-form>
@@ -454,6 +456,12 @@ const handleTableChange = (pag: any) => {
       
       :deep(.ant-form-item-label) {
         font-size: 14px;
+      }
+
+      .inline-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
       }
     }
     
