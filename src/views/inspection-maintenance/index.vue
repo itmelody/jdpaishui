@@ -5,6 +5,7 @@
       <a-layout-sider width="200" :style="{ background: '#fff' }">
         <a-menu
           v-model:selectedKeys="selectedMenu"
+          v-model:openKeys="openKeys"
           mode="inline"
           :items="menuItems"
           @click="handleMenuClick"
@@ -14,73 +15,82 @@
       <!-- 右侧内容区 -->
       <a-layout-content class="content-wrapper">
         <!-- 数据总览标签页 -->
-        <a-tabs v-model:activeKey="activeTab" class="main-tabs">
+        <a-tabs v-model:activeKey="activeTab" class="main-tabs" @change="handleTabChange">
           <a-tab-pane key="overview" tab="数据总览">
-            <!-- 待办事项 -->
-            <a-card title="待办事项" :bordered="false" class="section-card">
-              <a-row :gutter="16">
-                <a-col :span="4">
-                  <div class="todo-item">
-                    <div class="icon-circle blue">
-                      <FileTextOutlined />
+            <!-- 待办事项 + 任务情况 -->
+            <div class="todo-task-row">
+              <!-- 待办事项 -->
+              <a-card title="待办事项" :bordered="false" class="section-card todo-card">
+                <a-row :gutter="16">
+                  <a-col :span="24">
+                    <div class="todo-item">
+                      <div class="icon-circle blue">
+                        <FileTextOutlined />
+                      </div>
+                      <div class="todo-info">
+                        <div class="todo-label">养护计划</div>
+                        <div class="todo-count">0</div>
+                        <div class="progress-placeholder"></div>
+                      </div>
                     </div>
-                    <div class="todo-info">
-                      <div class="todo-label">养护计划</div>
-                      <div class="todo-count">0</div>
-                      <div class="progress-placeholder"></div>
+                  </a-col>
+                </a-row>
+              </a-card>
+
+              <!-- 任务情况 -->
+              <a-card title="任务情况" :bordered="false" class="section-card task-card">
+                <a-row :gutter="16">
+                  <a-col :span="6">
+                    <div class="todo-item">
+                      <div class="icon-circle cyan">
+                        <ToolOutlined />
+                      </div>
+                      <div class="todo-info">
+                        <div class="todo-label">管网养护</div>
+                        <div class="todo-count">909个</div>
+                        <a-progress :percent="75" :showInfo="false" strokeColor="#1890ff" />
+                      </div>
                     </div>
-                  </div>
-                </a-col>
-                <a-col :span="5">
-                  <div class="todo-item">
-                    <div class="icon-circle cyan">
-                      <ToolOutlined />
+                  </a-col>
+                  <a-col :span="6">
+                    <div class="todo-item">
+                      <div class="icon-circle purple">
+                        <SearchOutlined />
+                      </div>
+                      <div class="todo-info">
+                        <div class="todo-label">排口巡查</div>
+                        <div class="todo-count">329次</div>
+                        <a-progress :percent="45" :showInfo="false" strokeColor="#722ed1" />
+                      </div>
                     </div>
-                    <div class="todo-info">
-                      <div class="todo-label">管网养护</div>
-                      <div class="todo-count">909个</div>
-                      <a-progress :percent="75" :showInfo="false" strokeColor="#1890ff" />
+                  </a-col>
+                  <a-col :span="6">
+                    <div class="todo-item">
+                      <div class="icon-circle orange">
+                        <EnvironmentOutlined />
+                      </div>
+                      <div class="todo-info">
+                        <div class="todo-label">工地巡查</div>
+                        <div class="todo-count">196个</div>
+                        <a-progress :percent="60" :showInfo="false" strokeColor="#fa8c16" />
+                      </div>
                     </div>
-                  </div>
-                </a-col>
-                <a-col :span="5">
-                  <div class="todo-item">
-                    <div class="icon-circle purple">
-                      <SearchOutlined />
+                  </a-col>
+                  <a-col :span="6">
+                    <div class="todo-item">
+                      <div class="icon-circle light-blue">
+                        <BellOutlined />
+                      </div>
+                      <div class="todo-info">
+                        <div class="todo-label">事件上报</div>
+                        <div class="todo-count">9个</div>
+                        <div class="progress-placeholder"></div>
+                      </div>
                     </div>
-                    <div class="todo-info">
-                      <div class="todo-label">排口巡查</div>
-                      <div class="todo-count">329次</div>
-                      <a-progress :percent="45" :showInfo="false" strokeColor="#722ed1" />
-                    </div>
-                  </div>
-                </a-col>
-                <a-col :span="5">
-                  <div class="todo-item">
-                    <div class="icon-circle orange">
-                      <EnvironmentOutlined />
-                    </div>
-                    <div class="todo-info">
-                      <div class="todo-label">工地巡查</div>
-                      <div class="todo-count">196个</div>
-                      <a-progress :percent="60" :showInfo="false" strokeColor="#fa8c16" />
-                    </div>
-                  </div>
-                </a-col>
-                <a-col :span="5">
-                  <div class="todo-item">
-                    <div class="icon-circle light-blue">
-                      <BellOutlined />
-                    </div>
-                    <div class="todo-info">
-                      <div class="todo-label">事件上报</div>
-                      <div class="todo-count">9个</div>
-                      <div class="progress-placeholder"></div>
-                    </div>
-                  </div>
-                </a-col>
-              </a-row>
-            </a-card>
+                  </a-col>
+                </a-row>
+              </a-card>
+            </div>
 
             <!-- 数据统计 -->
             <a-card title="数据统计" :bordered="false" class="section-card">
@@ -276,6 +286,7 @@ const router = useRouter()
 
 // 左侧菜单配置
 const selectedMenu = ref<string[]>(['overview'])
+const openKeys = ref<string[]>([])
 const menuItems = [
   { key: 'overview', label: '数据总览' },
   {
@@ -402,12 +413,48 @@ const eventData = ref([
   { id: 4, rank: 4, category: '管网巡查', count: 0 }
 ])
 
+// 父菜单 -> 第一个子菜单映射
+const parentFirstChild: Record<string, string> = {
+  'overview': 'overview',
+  'plan': 'maintenance-plan',
+  'task': 'maintenance-task',
+  'decision': 'maintenance-list',
+  'statistics': 'maintenance-stats',
+  'backend': 'network-analysis',
+  'supervision': 'assessment',
+  'special': 'construction-site'
+}
+
+// 标签页切换时联动左侧菜单
+const handleTabChange = (key: string) => {
+  const firstChild = parentFirstChild[key]
+  if (firstChild && firstChild !== 'overview') {
+    selectedMenu.value = [firstChild]
+    openKeys.value = [key] // 自动展开对应的一级菜单
+  }
+}
+
 // 菜单点击处理
 const handleMenuClick = ({ key }: { key: string }) => {
   // 更新选中的菜单项
   selectedMenu.value = [key]
   
-  // 如果是养护任务、巡查任务、抢修任务，切换到任务管理标签页
+  // 根据子菜单确定父菜单，自动展开
+  const childToParent: Record<string, string> = {
+    'maintenance-plan': 'plan', 'inspection-plan': 'plan', 'repair-plan': 'plan',
+    'maintenance-task': 'task', 'inspection-task': 'task', 'repair-task': 'task',
+    'maintenance-list': 'decision', 'smart-maintenance': 'decision',
+    'maintenance-stats': 'statistics', 'inspection-stats': 'statistics', 'repair-stats': 'statistics', 'personnel-stats': 'statistics',
+    'network-analysis': 'backend', 'chamber-analysis': 'backend', 'abnormal-analysis': 'backend', 'trajectory-analysis': 'backend',
+    'assessment': 'supervision', 'log': 'supervision', 'well-operation': 'supervision', 'checkin': 'supervision',
+    'construction-site': 'special', 'outlet-check': 'special'
+  }
+  
+  if (childToParent[key]) {
+    openKeys.value = [childToParent[key]]
+  }
+  
+  // 切换到对应的标签页
   if (['maintenance-task', 'inspection-task', 'repair-task'].indexOf(key) !== -1) {
     activeTab.value = 'task'
   } else if (['maintenance-plan', 'inspection-plan', 'repair-plan'].indexOf(key) !== -1) {
@@ -491,6 +538,22 @@ onMounted(() => {
   .main-tabs {
     :deep(.ant-tabs-nav) {
       margin-bottom: 16px;
+    }
+  }
+  
+  .todo-task-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    
+    .todo-card {
+      flex: 1;
+      margin-bottom: 0;
+    }
+    
+    .task-card {
+      flex: 4;
+      margin-bottom: 0;
     }
   }
   

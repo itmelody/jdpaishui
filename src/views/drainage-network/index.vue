@@ -14,23 +14,77 @@
       
       <!-- 右侧内容区 -->
       <a-layout-content class="content-wrapper">
-        <!-- 使用 router-view 显示子路由组件 -->
-        <router-view />
+        <a-tabs v-model:activeKey="activeTab" class="main-tabs" @change="handleTabChange">
+          <a-tab-pane key="basic-info" tab="管网基础信息管理">
+            <component :is="currentChild" />
+          </a-tab-pane>
+          <a-tab-pane key="detection-info" tab="管网检测信息管理">
+            <component :is="currentChild" />
+          </a-tab-pane>
+          <a-tab-pane key="unit-info" tab="检测单位信息管理">
+            <component :is="currentChild" />
+          </a-tab-pane>
+          <a-tab-pane key="progress-stats" tab="排查工作进展统计">
+            <component :is="currentChild" />
+          </a-tab-pane>
+        </a-tabs>
       </a-layout-content>
     </a-layout>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-
-const router = useRouter()
-const route = useRoute()
+import { ref, computed, shallowRef } from 'vue'
+import ManholeInfo from './manhole-info.vue'
+import PipeSectionInfo from './pipe-section-info.vue'
+import NetworkMap from './network-map.vue'
+import DetectionResult from './detection-result.vue'
+import HiddenDanger from './hidden-danger.vue'
+import UnitBasic from './unit-basic.vue'
+import UnitPersonnel from './unit-personnel.vue'
+import DataStats from './data-stats.vue'
+import ProgressStatsDetail from './progress-stats-detail.vue'
+import RectificationAnalysis from './rectification-analysis.vue'
 
 // 左侧菜单配置
 const selectedMenu = ref<string[]>(['manhole-info'])
-const openKeys = ref<string[]>(['basic-info']) // 默认展开管网基础信息管理
+const openKeys = ref<string[]>(['basic-info'])
+const activeTab = ref('basic-info')
+
+// 子菜单项 -> 父菜单 key 映射
+const childToParent: Record<string, string> = {
+  'manhole-info': 'basic-info',
+  'pipe-section-info': 'basic-info',
+  'network-map': 'basic-info',
+  'detection-result': 'detection-info',
+  'hidden-danger': 'detection-info',
+  'unit-basic': 'unit-info',
+  'unit-personnel': 'unit-info',
+  'data-stats': 'progress-stats',
+  'progress-stats-detail': 'progress-stats',
+  'rectification-analysis': 'progress-stats'
+}
+
+// 子菜单项 -> 组件映射
+const childComponentMap: Record<string, any> = {
+  'manhole-info': ManholeInfo,
+  'pipe-section-info': PipeSectionInfo,
+  'network-map': NetworkMap,
+  'detection-result': DetectionResult,
+  'hidden-danger': HiddenDanger,
+  'unit-basic': UnitBasic,
+  'unit-personnel': UnitPersonnel,
+  'data-stats': DataStats,
+  'progress-stats-detail': ProgressStatsDetail,
+  'rectification-analysis': RectificationAnalysis
+}
+
+// 当前显示的子组件
+const currentChild = computed(() => {
+  const key = selectedMenu.value[0] || 'manhole-info'
+  return childComponentMap[key] || ManholeInfo
+})
+
 const menuItems = [
   {
     key: 'basic-info',
@@ -68,68 +122,32 @@ const menuItems = [
   }
 ]
 
-// 监听路由变化，更新选中的菜单项
-watch(
-  () => route.path,
-  (newPath) => {
-    if (newPath) {
-      // 根据路径确定对应的菜单key
-      let menuKey = 'manhole-info' // 默认值
-      
-      if (newPath.includes('/pipe-section-info')) {
-        menuKey = 'pipe-section-info'
-      } else if (newPath.includes('/network-map')) {
-        menuKey = 'network-map'
-      } else if (newPath.includes('/detection-result')) {
-        menuKey = 'detection-result'
-      } else if (newPath.includes('/hidden-danger')) {
-        menuKey = 'hidden-danger'
-      } else if (newPath.includes('/unit-basic')) {
-        menuKey = 'unit-basic'
-      } else if (newPath.includes('/unit-personnel')) {
-        menuKey = 'unit-personnel'
-      } else if (newPath.includes('/data-stats')) {
-        menuKey = 'data-stats'
-      } else if (newPath.includes('/progress-stats-detail')) {
-        menuKey = 'progress-stats-detail'
-      } else if (newPath.includes('/rectification-analysis')) {
-        menuKey = 'rectification-analysis'
-      }
-      
-      selectedMenu.value = [menuKey]
-      
-      // 根据菜单项设置对应的展开状态
-      if (['manhole-info', 'pipe-section-info', 'network-map'].includes(menuKey)) {
-        openKeys.value = ['basic-info']
-      } else if (['detection-result', 'hidden-danger'].includes(menuKey)) {
-        openKeys.value = ['detection-info']
-      } else if (['unit-basic', 'unit-personnel'].includes(menuKey)) {
-        openKeys.value = ['unit-info']
-      } else if (['data-stats', 'progress-stats-detail', 'rectification-analysis'].includes(menuKey)) {
-        openKeys.value = ['progress-stats']
-      }
-    }
-  },
-  { immediate: true }
-)
+// 父菜单 -> 第一个子菜单映射
+const parentFirstChild: Record<string, string> = {
+  'basic-info': 'manhole-info',
+  'detection-info': 'detection-result',
+  'unit-info': 'unit-basic',
+  'progress-stats': 'data-stats'
+}
 
-// 菜单点击处理
-const handleMenuClick = ({ key }: { key: string }) => {
-  const routeMap: Record<string, string> = {
-    'manhole-info': '/drainage-network/manhole-info',
-    'pipe-section-info': '/drainage-network/pipe-section-info',
-    'network-map': '/drainage-network/network-map',
-    'detection-result': '/drainage-network/detection-result',
-    'hidden-danger': '/drainage-network/hidden-danger',
-    'unit-basic': '/drainage-network/unit-basic',
-    'unit-personnel': '/drainage-network/unit-personnel',
-    'data-stats': '/drainage-network/data-stats',
-    'progress-stats-detail': '/drainage-network/progress-stats-detail',
-    'rectification-analysis': '/drainage-network/rectification-analysis'
+// 标签页切换时联动左侧菜单
+const handleTabChange = (key: string) => {
+  const firstChild = parentFirstChild[key]
+  if (firstChild) {
+    selectedMenu.value = [firstChild]
   }
-  
-  if (routeMap[key]) {
-    router.push(routeMap[key])
+  openKeys.value = [key]
+}
+
+// 菜单点击处理 - 同步更新菜单选中、展开状态和标签页
+const handleMenuClick = ({ key }: { key: string }) => {
+  selectedMenu.value = [key]
+
+  // 切换到对应的父级页签
+  const parentKey = childToParent[key]
+  if (parentKey) {
+    activeTab.value = parentKey
+    openKeys.value = [parentKey]
   }
 }
 </script>
@@ -146,8 +164,14 @@ const handleMenuClick = ({ key }: { key: string }) => {
   }
 
   .content-wrapper {
-    padding: 16px;
+    padding: 0 16px;
     overflow-y: auto;
+  }
+
+  .main-tabs {
+    :deep(.ant-tabs-nav) {
+      margin-bottom: 16px;
+    }
   }
 }
 </style>

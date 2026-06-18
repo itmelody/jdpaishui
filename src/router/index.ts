@@ -18,6 +18,12 @@ const routes = [
     component: () => import('@/views/detection-management/index.vue')
   },
   {
+    path: '/im-dashboard',
+    name: 'ImDashboard',
+    meta: { title: '管网巡查养护' },
+    component: () => import('@/views/inspection-maintenance/dashboard.vue')
+  },
+  {
     path: '/',
     component: () => import('@/layouts/MainLayout.vue'),
     children: [
@@ -50,7 +56,7 @@ const routes = [
             path: 'network-map',
             name: 'NetworkMap',
             meta: { title: '排水管网地图' },
-            component: () => import('@/views/drainage-network/index.vue')
+            component: () => import('@/views/drainage-network/network-map.vue')
           },
           {
             path: 'detection-result',
@@ -149,7 +155,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory('/jdpaishui/'),
+  history: createWebHistory(import.meta.env.PROD ? '/jdpaishui/' : '/'),
   routes
 })
 

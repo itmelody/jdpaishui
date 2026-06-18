@@ -77,10 +77,9 @@ const handleNetworkLogin = () => {
   router.push('/detection-management')
 }
 
-// 巡查养护登录入口
+// 巡查养护登录入口 - 跳转到管网巡查养护系统
 const handleInspectionLogin = () => {
-  console.log('巡查养护登录入口')
-  // TODO: 后续实现巡查养护相关功能
+  router.push('/im-dashboard')
 }
 </script>
 

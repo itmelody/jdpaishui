@@ -1,5 +1,10 @@
 <template>
   <div class="pipe-section-info-page">
+    <!-- 页面标题 -->
+    <div class="page-header">
+      <h2 class="page-title">管段基础信息</h2>
+    </div>
+
     <!-- 搜索表单 -->
     <a-card :bordered="false" class="search-card">
       <a-form layout="inline" :model="searchForm">
@@ -535,9 +540,19 @@ const handleTableChange = (pag: any) => {
 
 <style scoped lang="scss">
 .pipe-section-info-page {
-  padding: 16px;
   background-color: #f0f2f5;
   min-height: calc(100vh - 120px);
+
+  .page-header {
+    margin-bottom: 16px;
+
+    .page-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+  }
 
   .search-card {
     margin-bottom: 16px;
