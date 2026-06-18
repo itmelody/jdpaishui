@@ -1,42 +1,46 @@
 <template>
   <div class="video-monitor">
     <!-- 筛选条件 -->
-    <a-form :model="searchForm" layout="inline" class="search-form">
-      <a-row :gutter="[16, 12]" align="middle" style="width:100%">
-        <a-col :span="6">
-          <a-form-item label="归属地区:">
-            <a-select v-model:value="searchForm.region" placeholder="请选择地区" allow-clear style="width:100%">
-              <a-select-option value="jiande">浙江省 / 杭州市 / 建德市</a-select-option>
-            </a-select>
-          </a-form-item>
-        </a-col>
-        <a-col :span="6">
-          <a-form-item label="监控点编号:">
-            <a-input v-model:value="searchForm.pointId" placeholder="请输入监控点编号" allow-clear />
-          </a-form-item>
-        </a-col>
-        <a-col :span="6">
-          <a-form-item label="监控点名称:">
-            <a-input v-model:value="searchForm.pointName" placeholder="请输入监控点名称" allow-clear />
-          </a-form-item>
-        </a-col>
-        <a-col :span="6">
-          <a-space>
-            <a-button @click="handleReset">
-              <template #icon><ReloadOutlined /></template>
-              重置
-            </a-button>
-            <a-button type="primary" @click="handleSearch">
-              <template #icon><SearchOutlined /></template>
-              搜索
-            </a-button>
-            <a-button @click="showAdvanced = !showAdvanced">
-              展开 <DownOutlined v-if="!showAdvanced" /><UpOutlined v-else />
-            </a-button>
-          </a-space>
-        </a-col>
-      </a-row>
-    </a-form>
+    <a-card :bordered="false" class="search-card">
+      <a-form :model="searchForm" layout="inline" class="search-form">
+        <a-row :gutter="[16, 16]">
+          <a-col :span="8">
+            <a-form-item label="归属地区:">
+              <a-select v-model:value="searchForm.region" placeholder="请选择地区" allow-clear>
+                <a-select-option value="jiande">浙江省 / 杭州市 / 建德市</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item label="监控点编号:">
+              <a-input v-model:value="searchForm.pointId" placeholder="请输入" allow-clear />
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item label="监控点名称:">
+              <a-input v-model:value="searchForm.pointName" placeholder="请输入" allow-clear />
+            </a-form-item>
+          </a-col>
+          <a-col :span="4">
+            <a-form-item class="inline-buttons">
+              <a-space>
+                <a-button @click="handleReset">
+                  <template #icon><ReloadOutlined /></template>
+                  重置
+                </a-button>
+                <a-button type="primary" @click="handleSearch">
+                  <template #icon><SearchOutlined /></template>
+                  搜索
+                </a-button>
+                <a-button @click="showAdvanced = !showAdvanced">
+                  展开 <DownOutlined v-if="!showAdvanced" /><UpOutlined v-else />
+                </a-button>
+              </a-space>
+            </a-form-item>
+          </a-col>
+        </a-row>
+      </a-form>
+    </a-card>
 
     <!-- 工具栏 -->
     <div class="toolbar">
@@ -174,19 +178,35 @@ const handlePlay = (record: any) => {
 
 <style scoped lang="scss">
 .video-monitor {
-  .search-form {
+  .search-card {
     margin-bottom: 16px;
-    padding: 16px;
-    background: #fafafa;
-    border-radius: 4px;
 
+    :deep(.ant-card-body) {
+      padding: 16px;
+    }
+  }
+
+  .search-form {
     :deep(.ant-form-item) {
-      margin-bottom: 12px;
+      margin-bottom: 0;
       width: 100%;
+      display: flex;
+      align-items: center;
     }
 
     :deep(.ant-form-item-label) {
       font-size: 14px;
+      line-height: 32px;
+      white-space: nowrap;
+    }
+
+    :deep(.ant-form-item-control) {
+      flex: 1;
+    }
+
+    .inline-buttons {
+      display: flex;
+      justify-content: flex-end;
     }
   }
 

@@ -10,68 +10,91 @@
       <a-layout-content class="content-wrapper">
         <a-tabs v-model:activeKey="activeTab" :bordered="false" class="main-tabs">
           <a-tab-pane key="projectLedger" tab="工程项目台账">
-            <!-- 筛选条件 -->
-        <a-form :model="searchForm" layout="inline" class="search-form">
-          <a-row :gutter="[12, 12]" align="middle" style="width:100%">
-            <a-col :span="4">
-              <a-form-item label="归属地区:">
-                <a-select v-model:value="searchForm.city" placeholder="请选择" allow-clear style="width:100%">
-                  <a-select-option value="hangzhou">杭州市</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :span="4">
-              <a-form-item>
-                <a-select v-model:value="searchForm.district" placeholder="请选择" allow-clear style="width:100%">
-                  <a-select-option value="jiande">建德市</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :span="4">
-              <a-form-item label="处理状态:">
-                <a-select v-model:value="searchForm.status" placeholder="请选择" allow-clear style="width:100%">
-                  <a-select-option value="pending">待处理</a-select-option>
-                  <a-select-option value="processed">已处理</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :span="3">
-              <a-form-item label="归属年度:">
-                <a-input v-model:value="searchForm.year" placeholder="" allow-clear />
-              </a-form-item>
-            </a-col>
-            <a-col :span="4">
-              <a-form-item label="是否纳入年考核:">
-                <a-select v-model:value="searchForm.assessment" placeholder="请选择" allow-clear style="width:100%">
-                  <a-select-option value="yes">是</a-select-option>
-                  <a-select-option value="no">否</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :span="5">
-              <a-space>
-                <a-button @click="showAdvanced = !showAdvanced">
-                  {{ showAdvanced ? '收起' : '展开' }}
-                  <UpOutlined v-if="showAdvanced" /><DownOutlined v-else />
-                </a-button>
-              </a-space>
-            </a-col>
-          </a-row>
-        </a-form>
+            <a-card :bordered="false" class="main-card">
+              <!-- 筛选条件 -->
+              <a-form :model="searchForm" layout="inline" class="search-form">
+                <a-row :gutter="[16, 16]">
+                  <a-col :span="6">
+                    <a-form-item label="归属地区:">
+                      <a-select v-model:value="searchForm.city" placeholder="请选择" allow-clear>
+                        <a-select-option value="hangzhou">杭州市</a-select-option>
+                      </a-select>
+                    </a-form-item>
+                  </a-col>
+                  <a-col :span="6">
+                    <a-form-item>
+                      <a-select v-model:value="searchForm.district" placeholder="请选择" allow-clear>
+                        <a-select-option value="jiande">建德市</a-select-option>
+                      </a-select>
+                    </a-form-item>
+                  </a-col>
+                  <a-col :span="6">
+                    <a-form-item label="处理状态:">
+                      <a-select v-model:value="searchForm.status" placeholder="请选择" allow-clear>
+                        <a-select-option value="pending">待处理</a-select-option>
+                        <a-select-option value="processed">已处理</a-select-option>
+                      </a-select>
+                    </a-form-item>
+                  </a-col>
+                  <a-col :span="6">
+                    <a-form-item label="归属年度:">
+                      <a-input v-model:value="searchForm.year" placeholder="请输入" allow-clear />
+                    </a-form-item>
+                  </a-col>
+                  <a-col :span="6">
+                    <a-form-item label="是否纳入年考核:">
+                      <a-select v-model:value="searchForm.assessment" placeholder="请选择" allow-clear>
+                        <a-select-option value="yes">是</a-select-option>
+                        <a-select-option value="no">否</a-select-option>
+                      </a-select>
+                    </a-form-item>
+                  </a-col>
+                  <a-col :span="6">
+                    <a-form-item label="计划设计:">
+                      <a-select v-model:value="searchForm.planDesign" placeholder="请选择" allow-clear>
+                        <a-select-option value="yes">是</a-select-option>
+                        <a-select-option value="no">否</a-select-option>
+                      </a-select>
+                    </a-form-item>
+                  </a-col>
+                  <a-col :span="6">
+                    <a-form-item label="关联谋划项目:">
+                      <a-select v-model:value="searchForm.relatedProject" placeholder="请选择" allow-clear>
+                        <a-select-option value="yes">是</a-select-option>
+                        <a-select-option value="no">否</a-select-option>
+                      </a-select>
+                    </a-form-item>
+                  </a-col>
+                  <a-col :span="6">
+                    <a-form-item class="inline-buttons">
+                      <a-space>
+                        <a-button @click="showAdvanced = !showAdvanced">
+                          {{ showAdvanced ? '收起' : '展开' }}
+                          <UpOutlined v-if="showAdvanced" /><DownOutlined v-else />
+                        </a-button>
+                        <a-button type="primary" @click="handleSearch">
+                          <template #icon><SearchOutlined /></template>
+                          搜索
+                        </a-button>
+                      </a-space>
+                    </a-form-item>
+                  </a-col>
+                </a-row>
+              </a-form>
 
-        <!-- 批量操作按钮 -->
-        <div class="batch-actions">
-          <a-space>
-            <a-button @click="handleBatch('confirm')">批量确认</a-button>
-            <a-button @click="handleBatch('reject')">批量驳回</a-button>
-            <a-button @click="handleBatch('delete')">批量删除</a-button>
-            <a-button @click="handleBatch('export')">批量导出</a-button>
-          </a-space>
-          <a-button type="primary" @click="handleSearch">
-            <template #icon><SearchOutlined /></template>
-            搜索
-          </a-button>
-        </div>
+              <!-- 操作按钮 -->
+              <div class="action-buttons">
+                <a-space>
+                  <a-button type="primary" @click="handleAdd">
+                    <template #icon><PlusOutlined /></template>
+                    新增
+                  </a-button>
+                  <a-button @click="handleBatch('confirm')">批量确认</a-button>
+                  <a-button @click="handleBatch('reject')">批量驳回</a-button>
+                  <a-button @click="handleBatch('delete')">批量删除</a-button>
+                  <a-button @click="handleBatch('export')">批量导出</a-button>
+                </a-space>
+              </div>
 
         <!-- 数据表格 -->
         <a-table
@@ -113,6 +136,7 @@
             </template>
           </template>
         </a-table>
+            </a-card>
           </a-tab-pane>
 
           <a-tab-pane key="constructionSupervision" tab="施工过程监管">
@@ -140,7 +164,8 @@
 import { ref, reactive, watch } from 'vue'
 import type { MenuProps } from 'ant-design-vue'
 import {
-  SearchOutlined, StarFilled, DownOutlined, UpOutlined
+  SearchOutlined, StarFilled, DownOutlined, UpOutlined,
+  PlusOutlined, DownloadOutlined, UploadOutlined, DeleteOutlined
 } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 
@@ -225,6 +250,21 @@ const handleSearch = () => {
   message.success('搜索功能待实现')
 }
 
+const handleReset = () => {
+  searchForm.city = undefined
+  searchForm.district = undefined
+  searchForm.status = undefined
+  searchForm.year = ''
+  searchForm.assessment = undefined
+  searchForm.planDesign = undefined
+  searchForm.relatedProject = undefined
+  message.success('重置成功')
+}
+
+const handleAdd = () => {
+  message.info('新增功能待实现')
+}
+
 const handleBatch = (type: string) => {
   if (selectedRows.value.length === 0) {
     message.warning('请先选择数据')
@@ -277,26 +317,29 @@ const handleDispose = (record: any) => {
     }
   }
 
+  .main-card {
+    margin-bottom: 16px;
+  }
+
   .search-form {
     margin-bottom: 16px;
-    padding: 16px;
-    background: #fafafa;
-    border-radius: 4px;
 
     :deep(.ant-form-item) {
-      margin-bottom: 12px;
+      margin-bottom: 0;
       width: 100%;
     }
 
     :deep(.ant-form-item-label) {
       font-size: 14px;
     }
+
+    .inline-buttons {
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 
-  .batch-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .action-buttons {
     margin-bottom: 16px;
   }
 

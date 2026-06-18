@@ -1,14 +1,14 @@
 <template>
-  <div class="inspection-task">
+  <div class="inspection-task-content">
     <!-- 顶部筛选区 -->
     <div class="filter-bar">
       <a-row :gutter="[8, 8]" align="middle">
         <a-col>
           <span class="filter-label">关键字</span>
           <a-input 
-            v-model:value="keyword" 
+            v-model:value="searchForm.keyword" 
             placeholder="请输入道路或小区" 
-            class="keyword-input" 
+            style="width: 180px" 
             allow-clear
           >
             <template #prefix><SearchOutlined style="color: #999" /></template>
@@ -17,10 +17,10 @@
         <a-col>
           <span class="filter-label">片区</span>
           <a-select 
-            v-model:value="areaFilter" 
+            v-model:value="searchForm.area" 
             mode="multiple" 
             placeholder="全选" 
-            class="filter-select" 
+            style="width: 160px" 
             :max-tag-count="1"
             allow-clear
           >
@@ -33,10 +33,10 @@
         <a-col>
           <span class="filter-label">公司</span>
           <a-select 
-            v-model:value="companyFilter" 
+            v-model:value="searchForm.company" 
             mode="multiple" 
             placeholder="全选" 
-            class="filter-select" 
+            style="width: 160px" 
             :max-tag-count="1"
             allow-clear
           >
@@ -46,9 +46,9 @@
         <a-col>
           <span class="filter-label">时间</span>
           <a-range-picker 
-            v-model:value="dateRange" 
-            class="date-picker" 
-            :placeholder="['开始日期', '结束日期']" 
+            v-model:value="searchForm.dateRange" 
+            style="width: 240px" 
+            :placeholder="['开始日期', '结束日期']"
           />
         </a-col>
         <a-col>
@@ -90,10 +90,9 @@
 
     <!-- 底部地图区域 -->
     <div class="map-section">
-      <div id="inspection-amap" class="amap-wrapper"></div>
+      <div id="inspection-task-amap" class="amap-wrapper"></div>
       <div class="map-expand-btn" @click="toggleMapExpand">展开</div>
     </div>
-
     <!-- 巡查照片弹窗 -->
     <a-modal
       v-model:open="photoModalVisible"
@@ -150,10 +149,15 @@ import AMapLoader from '@amap/amap-jsapi-loader'
 import dayjs, { type Dayjs } from 'dayjs'
 import xunchaImg from '@/assets/xuncha.jpg'
 
-const keyword = ref('')
-const areaFilter = ref<string[]>([])
-const companyFilter = ref<string[]>([])
-const dateRange = ref<[Dayjs, Dayjs]>([dayjs('2026-06-11'), dayjs('2026-06-18')])
+// 搜索表单
+const searchForm = ref({
+  keyword: '',
+  area: [],
+  company: [],
+  dateRange: [dayjs('2026-06-11'), dayjs('2026-06-18')] as [Dayjs, Dayjs]
+})
+
+// 选中的行
 const selectedRowKeys = ref<string[]>(['1'])
 
 // 任务表格列
@@ -270,27 +274,31 @@ const openPhotoModal = (record?: any) => {
 
 // 初始化高德地图
 const initAMap = async () => {
-  const AMap = await AMapLoader.load({
-    key: '11ff1e3bd0d19646144e5c8e116d486c',
-    version: '2.0',
-    plugins: ['AMap.Scale', 'AMap.ToolBar', 'AMap.Polyline', 'AMap.Marker']
-  })
+  try {
+    const AMap = await AMapLoader.load({
+      key: '11ff1e3bd0d19646144e5c8e116d486c',
+      version: '2.0',
+      plugins: ['AMap.Scale', 'AMap.ToolBar', 'AMap.Polyline', 'AMap.Marker']
+    })
 
-  amapLib = AMap
+    amapLib = AMap
 
-  mapInstance = new AMap.Map('inspection-amap', {
-    zoom: 13,
-    center: [119.35, 29.48],
-    mapStyle: 'amap://styles/light',
-    viewMode: '2D'
-  })
+    mapInstance = new AMap.Map('inspection-task-amap', {
+      zoom: 13,
+      center: [119.35, 29.48],
+      mapStyle: 'amap://styles/light',
+      viewMode: '2D'
+    })
 
-  mapInstance.addControl(new AMap.Scale())
-  mapInstance.addControl(new AMap.ToolBar({ position: 'RT' }))
+    mapInstance.addControl(new AMap.Scale())
+    mapInstance.addControl(new AMap.ToolBar({ position: 'RT' }))
 
-  // 默认绘制第一条任务的路线
-  if (taskData.value.length > 0) {
-    drawRouteOnMap(taskData.value[0])
+    // 默认绘制第一条任务的路线
+    if (taskData.value.length > 0) {
+      drawRouteOnMap(taskData.value[0])
+    }
+  } catch (error) {
+    console.error('高德地图加载失败:', error)
   }
 }
 
@@ -365,7 +373,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
-.inspection-task {
+.inspection-task-content {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -383,18 +391,6 @@ onBeforeUnmount(() => {
     margin-right: 8px;
     font-size: 14px;
     color: #333;
-  }
-
-  .keyword-input { 
-    width: 180px; 
-  }
-  
-  .filter-select { 
-    width: 160px; 
-  }
-  
-  .date-picker { 
-    width: 240px; 
   }
 }
 

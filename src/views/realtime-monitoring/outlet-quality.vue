@@ -1,51 +1,50 @@
 <template>
   <div class="outlet-quality">
-    <!-- 页面标题 -->
-    <div class="page-header">
-      <span class="page-title">排水户排口监测</span>
-    </div>
-
     <!-- 标签页 -->
     <a-tabs v-model:activeKey="activeTab" class="outlet-tabs">
       <a-tab-pane key="hourly" tab="出水小时数据（生态）">
         <!-- 筛选条件 -->
-        <a-form :model="searchForm" layout="inline" class="search-form">
-          <a-row :gutter="[16, 12]" align="middle">
-            <a-col :span="5">
-              <a-form-item label="归属地区:">
-                <a-select v-model:value="searchForm.region" placeholder="请选择" allow-clear style="width:100%">
-                  <a-select-option value="jiande">建德市</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :span="5">
-              <a-form-item label="企业名称:">
-                <a-input v-model:value="searchForm.companyName" placeholder="请输入名称" allow-clear />
-              </a-form-item>
-            </a-col>
-            <a-col :span="7">
-              <a-form-item label="数据采集时间:">
-                <a-range-picker
-                  v-model:value="searchForm.dateRange"
-                  style="width: 100%"
-                  :placeholder="['开始日期', '结束日期']"
-                />
-              </a-form-item>
-            </a-col>
-            <a-col :span="7">
-              <a-space>
-                <a-button type="primary" @click="handleSearch">
-                  <template #icon><SearchOutlined /></template>
-                  搜索
-                </a-button>
-                <a-button @click="handleReset">
-                  <template #icon><ReloadOutlined /></template>
-                  重置
-                </a-button>
-              </a-space>
-            </a-col>
-          </a-row>
-        </a-form>
+        <a-card :bordered="false" class="search-card">
+          <a-form :model="searchForm" layout="inline" class="search-form">
+            <a-row :gutter="[16, 16]">
+              <a-col :span="8">
+                <a-form-item label="归属地区:">
+                  <a-select v-model:value="searchForm.region" placeholder="请选择" allow-clear>
+                    <a-select-option value="jiande">建德市</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+              <a-col :span="6">
+                <a-form-item label="企业名称:">
+                  <a-input v-model:value="searchForm.companyName" placeholder="请输入" allow-clear />
+                </a-form-item>
+              </a-col>
+              <a-col :span="6">
+                <a-form-item label="数据采集时间:">
+                  <a-range-picker
+                    v-model:value="searchForm.dateRange"
+                    style="width: 100%"
+                    :placeholder="['开始日期', '结束日期']"
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="4">
+                <a-form-item class="inline-buttons">
+                  <a-space>
+                    <a-button type="primary" @click="handleSearch">
+                      <template #icon><SearchOutlined /></template>
+                      搜索
+                    </a-button>
+                    <a-button @click="handleReset">
+                      <template #icon><ReloadOutlined /></template>
+                      重置
+                    </a-button>
+                  </a-space>
+                </a-form-item>
+              </a-col>
+            </a-row>
+          </a-form>
+        </a-card>
 
         <!-- 数据表格 -->
         <a-table
@@ -141,16 +140,6 @@ const handleTableChange = (pag: any) => {
 
 <style scoped lang="scss">
 .outlet-quality {
-  .page-header {
-    margin-bottom: 12px;
-
-    .page-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: #333;
-    }
-  }
-
   .outlet-tabs {
     :deep(.ant-tabs-tab) {
       padding: 8px 20px;
@@ -166,19 +155,35 @@ const handleTableChange = (pag: any) => {
     }
   }
 
-  .search-form {
+  .search-card {
     margin-bottom: 16px;
-    padding: 16px;
-    background: #fafafa;
-    border-radius: 4px;
 
+    :deep(.ant-card-body) {
+      padding: 16px;
+    }
+  }
+
+  .search-form {
     :deep(.ant-form-item) {
-      margin-bottom: 12px;
+      margin-bottom: 0;
       width: 100%;
+      display: flex;
+      align-items: center;
     }
 
     :deep(.ant-form-item-label) {
       font-size: 14px;
+      line-height: 32px;
+      white-space: nowrap;
+    }
+
+    :deep(.ant-form-item-control) {
+      flex: 1;
+    }
+
+    .inline-buttons {
+      display: flex;
+      justify-content: flex-end;
     }
   }
 

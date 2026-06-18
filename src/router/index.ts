@@ -121,6 +121,12 @@ const routes = [
         component: () => import('@/views/inspection-maintenance/maintenance-task.vue')
       },
       {
+        path: 'inspection-task',
+        name: 'InspectionTask',
+        meta: { title: '巡查任务' },
+        component: () => import('@/views/inspection-maintenance/InspectionTaskContent.vue')
+      },
+      {
         path: 'warning-workorder',
         name: 'WarningWorkorder',
         meta: { title: '预警工单' },

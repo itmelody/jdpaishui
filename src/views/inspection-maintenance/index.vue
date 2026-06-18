@@ -232,8 +232,8 @@
           
           <!-- 任务管理标签页 -->
           <a-tab-pane key="task" tab="任务管理">
-            <!-- 直接嵌入养护任务组件内容 -->
-            <MaintenanceTaskContent />
+            <!-- 根据左侧菜单动态显示不同内容 -->
+            <component :is="currentTaskComponent" />
           </a-tab-pane>
           
           <!-- 科学决策标签页 -->
@@ -267,7 +267,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   FileTextOutlined,
@@ -280,9 +280,24 @@ import {
 } from '@ant-design/icons-vue'
 import * as echarts from 'echarts'
 import MaintenanceTaskContent from './MaintenanceTaskContent.vue'
+import InspectionTaskContent from './InspectionTaskContent.vue'
 import DevelopmentPlaceholder from './DevelopmentPlaceholder.vue'
 
 const router = useRouter()
+
+// 当前任务组件（根据左侧菜单动态切换）
+const currentTaskComponent = computed(() => {
+  const selectedKey = selectedMenu.value[0]
+  if (selectedKey === 'maintenance-task') {
+    return MaintenanceTaskContent
+  } else if (selectedKey === 'inspection-task') {
+    return InspectionTaskContent
+  } else if (selectedKey === 'repair-task') {
+    // TODO: 抢修任务组件
+    return DevelopmentPlaceholder
+  }
+  return MaintenanceTaskContent // 默认显示养护任务
+})
 
 // 左侧菜单配置
 const selectedMenu = ref<string[]>(['overview'])

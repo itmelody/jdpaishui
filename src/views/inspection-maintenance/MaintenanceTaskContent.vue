@@ -3,41 +3,62 @@
     <!-- 搜索表单区域 -->
     <a-card :bordered="false" class="search-card">
       <a-form :model="searchForm" layout="inline" class="search-form">
-        <a-row :gutter="[16, 16]">
-          <a-col :span="5">
-            <a-form-item label="关键字">
-              <a-input v-model:value="searchForm.keyword" placeholder="请输入道路或小区名" style="width: 200px" />
-            </a-form-item>
+        <a-row :gutter="[8, 8]" align="middle">
+          <a-col>
+            <span class="filter-label">关键字：</span>
+            <a-input 
+              v-model:value="searchForm.keyword" 
+              placeholder="请输入道路或小区名" 
+              style="width: 180px" 
+              allow-clear
+            />
           </a-col>
-          <a-col :span="4">
-            <a-form-item label="片区">
-              <a-select v-model:value="searchForm.area" placeholder="全选" style="width: 180px" mode="multiple" maxTagCount="1">
-                <a-select-option value="all">全选</a-select-option>
-                <a-select-option value="zhijiang">之江片区</a-select-option>
-                <a-select-option value="sandun">三墩镇</a-select-option>
-                <a-select-option value="wenxin">文新街道</a-select-option>
-                <a-select-option value="xixi">西溪街道</a-select-option>
-                <a-select-option value="lingyin">灵隐街道</a-select-option>
-              </a-select>
-            </a-form-item>
+          <a-col>
+            <span class="filter-label">片区：</span>
+            <a-select 
+              v-model:value="searchForm.area" 
+              placeholder="全选" 
+              style="width: 160px" 
+              mode="multiple" 
+              maxTagCount="1"
+              allow-clear
+            >
+              <a-select-option value="zhijiang">之江片区</a-select-option>
+              <a-select-option value="sandun">三墩镇</a-select-option>
+              <a-select-option value="wenxin">文新街道</a-select-option>
+              <a-select-option value="xixi">西溪街道</a-select-option>
+              <a-select-option value="lingyin">灵隐街道</a-select-option>
+            </a-select>
           </a-col>
-          <a-col :span="4">
-            <a-form-item label="公司">
-              <a-select v-model:value="searchForm.company" placeholder="全选" style="width: 180px" mode="multiple" maxTagCount="1">
-                <a-select-option value="all">全选</a-select-option>
-                <a-select-option value="company1">公司A</a-select-option>
-                <a-select-option value="company2">公司B</a-select-option>
-              </a-select>
-            </a-form-item>
+          <a-col>
+            <span class="filter-label">公司：</span>
+            <a-select 
+              v-model:value="searchForm.company" 
+              placeholder="全选" 
+              style="width: 160px" 
+              mode="multiple" 
+              maxTagCount="1"
+              allow-clear
+            >
+              <a-select-option value="company1">公司A</a-select-option>
+              <a-select-option value="company2">公司B</a-select-option>
+            </a-select>
           </a-col>
-          <a-col :span="6">
-            <a-form-item label="时间">
-              <a-range-picker v-model:value="searchForm.dateRange" style="width: 280px" />
-            </a-form-item>
+          <a-col>
+            <span class="filter-label">时间：</span>
+            <a-range-picker 
+              v-model:value="searchForm.dateRange" 
+              style="width: 240px" 
+              :placeholder="['Start date', 'End date']"
+            />
           </a-col>
-          <a-col :span="5">
+          <a-col>
             <a-button type="link">更多筛选</a-button>
+          </a-col>
+          <a-col>
             <a-button type="primary">查询</a-button>
+          </a-col>
+          <a-col>
             <a-button>操作</a-button>
           </a-col>
         </a-row>
@@ -53,10 +74,14 @@
         :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
         row-key="id"
         size="small"
+        @change="onTableChange"
       >
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.key === 'status'">
-            <a-tag :color="record.status === '进行中' ? 'blue' : 'green'">{{ text }}</a-tag>
+            <a-tag :color="record.status === '进行中' ? '#e6f7ff' : '#f6ffed'" :style="{ color: record.status === '进行中' ? '#1890ff' : '#52c41a', borderColor: record.status === '进行中' ? '#91d5ff' : '#b7eb8f' }">{{ text }}</a-tag>
+          </template>
+          <template v-if="column.key === 'createTime'">
+            <span>{{ text }}</span>
           </template>
         </template>
       </a-table>
@@ -208,6 +233,18 @@ const onSelectChange = (keys: number[]) => {
     selectedTask.value = null
   }
 }
+
+// 表格排序处理
+const onTableChange = (pagination: any, filters: any, sorter: any) => {
+  if (sorter.field && sorter.order) {
+    // 根据创建时间排序
+    taskData.value.sort((a, b) => {
+      const timeA = new Date(a.createTime).getTime()
+      const timeB = new Date(b.createTime).getTime()
+      return sorter.order === 'ascend' ? timeA - timeB : timeB - timeA
+    })
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -220,6 +257,12 @@ const onSelectChange = (keys: number[]) => {
     }
 
     .search-form {
+      .filter-label {
+        margin-right: 8px;
+        font-size: 14px;
+        color: #333;
+      }
+
       :deep(.ant-form-item) {
         margin-bottom: 0;
       }
@@ -231,6 +274,26 @@ const onSelectChange = (keys: number[]) => {
 
     :deep(.ant-card-body) {
       padding: 16px;
+    }
+
+    :deep(.ant-table-thead > tr > th) {
+      background: #fafafa;
+      font-weight: 600;
+      font-size: 13px;
+      padding: 10px 8px;
+    }
+
+    :deep(.ant-table-tbody > tr > td) {
+      padding: 8px;
+      font-size: 13px;
+    }
+
+    :deep(.ant-table-tbody > tr:nth-child(even) > td) {
+      background: #fafafa;
+    }
+
+    :deep(.ant-table-tbody > tr:hover > td) {
+      background: #f0f9ff;
     }
   }
 
