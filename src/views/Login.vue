@@ -28,31 +28,57 @@
             主管部门系统登录入口 >
           </a-button>
 
-          <!-- 排水管网登录入口 -->
-          <a-button 
-            type="primary" 
-            size="large" 
-            class="login-btn secondary-btn"
-            @click="handleNetworkLogin"
-          >
-            <template #icon>
-              <ApartmentOutlined />
-            </template>
-            排水管网登录入口 >
-          </a-button>
+          <!-- 排水管网登录入口 + 手机端 -->
+          <div class="button-row">
+            <a-button 
+              type="primary" 
+              size="large" 
+              class="login-btn secondary-btn"
+              @click="handleNetworkLogin"
+            >
+              <template #icon>
+                <ApartmentOutlined />
+              </template>
+              排水管网登录入口 >
+            </a-button>
+            <a-button 
+              type="default" 
+              size="large" 
+              class="login-btn mobile-btn"
+              @click="handleMobileNetworkLogin"
+            >
+              <template #icon>
+                <MobileOutlined />
+              </template>
+              排水管网手机端
+            </a-button>
+          </div>
 
-          <!-- 巡查养护登录入口 -->
-          <a-button 
-            type="primary" 
-            size="large" 
-            class="login-btn secondary-btn"
-            @click="handleInspectionLogin"
-          >
-            <template #icon>
-              <ToolOutlined />
-            </template>
-            巡查养护登录入口 >
-          </a-button>
+          <!-- 巡查养护登录入口 + 手机端 -->
+          <div class="button-row">
+            <a-button 
+              type="primary" 
+              size="large" 
+              class="login-btn secondary-btn"
+              @click="handleInspectionLogin"
+            >
+              <template #icon>
+                <ToolOutlined />
+              </template>
+              巡查养护登录入口 >
+            </a-button>
+            <a-button 
+              type="default" 
+              size="large" 
+              class="login-btn mobile-btn"
+              @click="handleMobileInspectionLogin"
+            >
+              <template #icon>
+                <MobileOutlined />
+              </template>
+              巡查养护手机端
+            </a-button>
+          </div>
         </div>
       </div>
     </div>
@@ -61,7 +87,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { ApartmentOutlined, ToolOutlined } from '@ant-design/icons-vue'
+import { ApartmentOutlined, ToolOutlined, MobileOutlined } from '@ant-design/icons-vue'
 
 const router = useRouter()
 
@@ -77,9 +103,19 @@ const handleNetworkLogin = () => {
   router.push('/detection-management')
 }
 
+// 排水管网手机端 - 跳转到手机端首页
+const handleMobileNetworkLogin = () => {
+  router.push('/mobile-drainage-network')
+}
+
 // 巡查养护登录入口 - 跳转到管网巡查养护系统
 const handleInspectionLogin = () => {
   router.push('/im-dashboard')
+}
+
+// 巡查养护手机端 - 跳转到手机端首页
+const handleMobileInspectionLogin = () => {
+  router.push('/mobile-inspection')
 }
 </script>
 
@@ -195,6 +231,24 @@ const handleInspectionLogin = () => {
       flex-direction: column;
       gap: 24px;
 
+      .button-row {
+        position: relative;
+        width: 100%;
+
+        .secondary-btn {
+          width: 100%;
+        }
+
+        .mobile-btn {
+          position: absolute;
+          left: 100%;
+          top: 50%;
+          transform: translateY(-50%);
+          margin-left: 12px;
+          z-index: 10;
+        }
+      }
+
       .login-btn {
         height: 56px;
         font-size: 18px;
@@ -222,6 +276,23 @@ const handleInspectionLogin = () => {
             background: linear-gradient(135deg, #73d13d 0%, #52c41a 100%);
             box-shadow: 0 6px 16px rgba(82, 196, 26, 0.4);
             transform: translateY(-2px);
+          }
+
+          :deep(.ant-btn-icon) {
+            margin-right: 8px;
+          }
+        }
+
+        &.mobile-btn {
+          background: #fff;
+          border: 1px solid #d9d9d9;
+          color: #595959;
+          padding: 0 16px;
+          white-space: nowrap;
+
+          &:hover {
+            border-color: #40a9ff;
+            color: #40a9ff;
           }
 
           :deep(.ant-btn-icon) {

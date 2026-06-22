@@ -24,6 +24,18 @@ const routes = [
     component: () => import('@/views/inspection-maintenance/dashboard.vue')
   },
   {
+    path: '/mobile-drainage-network',
+    name: 'MobileDrainageNetwork',
+    meta: { title: '排水管网手机端' },
+    component: () => import('@/views/mobile/MobileDrainageNetwork.vue')
+  },
+  {
+    path: '/mobile-inspection',
+    name: 'MobileInspection',
+    meta: { title: '巡查养护手机端' },
+    component: () => import('@/views/mobile/MobileInspection.vue')
+  },
+  {
     path: '/',
     component: () => import('@/layouts/MainLayout.vue'),
     children: [
