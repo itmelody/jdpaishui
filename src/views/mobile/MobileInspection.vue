@@ -214,7 +214,7 @@ const navigateTo = (page: string) => {
         left: 0;
         right: 0;
         bottom: 0;
-        background-image: url('@/assets/bg.png');
+        background-image: url('@/assets/bg.jpg');
         background-size: cover;
         background-position: center;
         opacity: 0.3;

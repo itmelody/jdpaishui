@@ -123,7 +123,7 @@ const handleMobileInspectionLogin = () => {
     bottom: 0;
     background: 
       linear-gradient(135deg, rgba(10, 22, 40, 0.7) 0%, rgba(30, 60, 114, 0.6) 50%, rgba(42, 82, 152, 0.7) 100%),
-      url('@/assets/bg.png');
+      url('@/assets/bg.jpg');
     background-size: cover;
     background-position: center;
     background-blend-mode: overlay;

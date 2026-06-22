@@ -22,8 +22,8 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { ArrowLeftOutlined } from '@ant-design/icons-vue'
-import jscGwdt from '@/assets/jsc-gwdt.png'
-import jscYhdt from '@/assets/jsc-yhdt.png'
+import jscGwdt from '@/assets/jsc-gwdt.jpg'
+import jscYhdt from '@/assets/jsc-yhdt.jpg'
 
 const router = useRouter()
 const currentView = ref<'gwdt' | 'yhdt'>('gwdt')
