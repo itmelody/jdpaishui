@@ -28,31 +28,18 @@
             主管部门系统登录入口 >
           </a-button>
 
-          <!-- 排水管网登录入口 + 手机端 -->
-          <div class="button-row">
-            <a-button 
-              type="primary" 
-              size="large" 
-              class="login-btn secondary-btn"
-              @click="handleNetworkLogin"
-            >
-              <template #icon>
-                <ApartmentOutlined />
-              </template>
-              排水管网登录入口 >
-            </a-button>
-            <a-button 
-              type="default" 
-              size="large" 
-              class="login-btn mobile-btn"
-              @click="handleMobileNetworkLogin"
-            >
-              <template #icon>
-                <MobileOutlined />
-              </template>
-              排水管网手机端
-            </a-button>
-          </div>
+          <!-- 排水管网登录入口 -->
+          <a-button 
+            type="primary" 
+            size="large" 
+            class="login-btn secondary-btn"
+            @click="handleNetworkLogin"
+          >
+            <template #icon>
+              <ApartmentOutlined />
+            </template>
+            排水管网登录入口 >
+          </a-button>
 
           <!-- 巡查养护登录入口 + 手机端 -->
           <div class="button-row">
@@ -76,7 +63,7 @@
               <template #icon>
                 <MobileOutlined />
               </template>
-              巡查养护手机端
+              数字管养手机端
             </a-button>
           </div>
         </div>
@@ -103,19 +90,14 @@ const handleNetworkLogin = () => {
   router.push('/detection-management')
 }
 
-// 排水管网手机端 - 跳转到手机端首页
-const handleMobileNetworkLogin = () => {
-  router.push('/mobile-drainage-network')
-}
-
 // 巡查养护登录入口 - 跳转到管网巡查养护系统
 const handleInspectionLogin = () => {
   router.push('/im-dashboard')
 }
 
-// 巡查养护手机端 - 跳转到手机端首页
+// 数字管养手机端 - 跳转到数字管养首页
 const handleMobileInspectionLogin = () => {
-  router.push('/mobile-inspection')
+  router.push('/digital-management')
 }
 </script>
 

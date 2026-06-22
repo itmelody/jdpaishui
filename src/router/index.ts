@@ -36,6 +36,66 @@ const routes = [
     component: () => import('@/views/mobile/MobileInspection.vue')
   },
   {
+    path: '/mobile-patrol',
+    name: 'MobilePatrol',
+    meta: { title: '巡查手机端' },
+    component: () => import('@/views/mobile/MobilePatrol.vue')
+  },
+  {
+    path: '/mobile-patrol-detail',
+    name: 'MobilePatrolDetail',
+    meta: { title: '巡查详情' },
+    component: () => import('@/views/mobile/MobilePatrolDetail.vue')
+  },
+  {
+    path: '/mobile-maintenance',
+    name: 'MobileMaintenance',
+    meta: { title: '养护手机端' },
+    component: () => import('@/views/mobile/MobileMaintenance.vue')
+  },
+  {
+    path: '/maintenance-detail',
+    name: 'MaintenanceDetail',
+    meta: { title: '养护详情' },
+    component: () => import('@/views/mobile/MaintenanceDetail.vue')
+  },
+  {
+    path: '/mobile-check',
+    name: 'MobileCheck',
+    meta: { title: '检查手机端' },
+    component: () => import('@/views/mobile/MobileCheck.vue')
+  },
+  {
+    path: '/mobile-repair',
+    name: 'MobileRepair',
+    meta: { title: '抢修手机端' },
+    component: () => import('@/views/mobile/MobileRepair.vue')
+  },
+  {
+    path: '/repair-detail',
+    name: 'RepairDetail',
+    meta: { title: '抢修详情' },
+    component: () => import('@/views/mobile/RepairDetail.vue')
+  },
+  {
+    path: '/map-application',
+    name: 'MapApplication',
+    meta: { title: '地图应用' },
+    component: () => import('@/views/mobile/MapApplication.vue')
+  },
+  {
+    path: '/check-detail',
+    name: 'CheckDetail',
+    meta: { title: '排口检查详情' },
+    component: () => import('@/views/mobile/CheckDetail.vue')
+  },
+  {
+    path: '/digital-management',
+    name: 'DigitalManagement',
+    meta: { title: '数字管养智慧运营' },
+    component: () => import('@/views/mobile/DigitalManagement.vue')
+  },
+  {
     path: '/',
     component: () => import('@/layouts/MainLayout.vue'),
     children: [
