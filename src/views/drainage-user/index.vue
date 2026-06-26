@@ -13,7 +13,7 @@
       
       <!-- 右侧内容区 -->
       <a-layout-content class="content-wrapper">
-        <a-tabs v-model:activeKey="activeTab" :bordered="false">
+        <a-tabs v-model:activeKey="activeTab" :bordered="false" @change="handleTabChange">
           <!-- 排水户档案库标签页 -->
           <a-tab-pane key="archive" tab="排水户档案库">
             <a-card :bordered="false" class="main-card">
@@ -375,6 +375,11 @@ const handleMenuClick = ({ key }: { key: string }) => {
   // 更新选中的菜单项
   selectedMenu.value = [key]
   activeTab.value = key
+}
+
+// 标签页切换处理
+const handleTabChange = (key: string) => {
+  selectedMenu.value = [key]
 }
 
 // 搜索处理
