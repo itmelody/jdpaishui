@@ -160,6 +160,16 @@
             <PermitManagement />
           </a-tab-pane>
           
+          <!-- 临时排水许可管理标签页 -->
+          <a-tab-pane key="temporary-permit" tab="临时排水许可管理">
+            <TemporaryPermitManagement />
+          </a-tab-pane>
+          
+          <!-- 人工水质检测标签页 -->
+          <a-tab-pane key="manual-water-quality" tab="人工水质检测">
+            <ManualWaterQuality />
+          </a-tab-pane>
+          
           <!-- 在线水质监测标签页 -->
           <a-tab-pane key="monitoring" tab="在线水质监测">
             <WaterQualityMonitor />
@@ -191,6 +201,8 @@ import { SearchOutlined, ReloadOutlined, PlusOutlined, DownloadOutlined, UploadO
 import { message, Modal } from 'ant-design-vue'
 import DevelopmentPlaceholder from '../inspection-maintenance/DevelopmentPlaceholder.vue'
 import PermitManagement from './permit-management.vue'
+import TemporaryPermitManagement from './temporary-permit-management.vue'
+import ManualWaterQuality from './manual-water-quality.vue'
 import WaterQualityMonitor from './water-quality-monitor.vue'
 import InspectionRegistration from './inspection-registration.vue'
 
@@ -199,6 +211,8 @@ const selectedMenu = ref<string[]>(['archive'])
 const menuItems = [
   { key: 'archive', label: '排水户档案库' },
   { key: 'permit', label: '排水许可管理' },
+  { key: 'temporary-permit', label: '临时排水许可管理' },
+  { key: 'manual-water-quality', label: '人工水质检测' },
   { key: 'monitoring', label: '在线水质监测' },
   { key: 'inspection', label: '执法巡检登记' },
   { key: 'violation', label: '违规排污取证' },

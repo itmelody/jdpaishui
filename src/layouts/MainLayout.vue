@@ -19,6 +19,9 @@
           <a-menu-item key="workbench">
             <span>工作台</span>
           </a-menu-item>
+          <a-menu-item key="sewage-treatment">
+            <span>污水处理厂</span>
+          </a-menu-item>
           <a-menu-item key="drainage-network">
             <span>排水管网监管</span>
           </a-menu-item>

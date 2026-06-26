@@ -106,6 +106,12 @@ const routes = [
         component: () => import('@/views/workbench/index.vue')
       },
       {
+        path: 'sewage-treatment',
+        name: 'SewageTreatment',
+        meta: { title: '污水处理厂' },
+        component: () => import('@/views/sewage-treatment/index.vue')
+      },
+      {
         path: 'drainage-network',
         name: 'DrainageNetwork',
         meta: { title: '排水管网监管' },
@@ -171,6 +177,18 @@ const routes = [
             name: 'RectificationAnalysis',
             meta: { title: '隐患整治结果分析' },
             component: () => import('@/views/drainage-network/rectification-analysis.vue')
+          },
+          {
+            path: 'pump-station-info',
+            name: 'PumpStationInfo',
+            meta: { title: '泵站基本信息' },
+            component: () => import('@/views/drainage-network/pump-station-info.vue')
+          },
+          {
+            path: 'pump-station-monitor',
+            name: 'PumpStationMonitor',
+            meta: { title: '泵站运行监测' },
+            component: () => import('@/views/drainage-network/pump-station-monitor.vue')
           }
         ]
       },

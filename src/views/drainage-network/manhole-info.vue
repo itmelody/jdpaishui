@@ -205,6 +205,7 @@ const columns = [
   { title: '所在道路', dataIndex: 'road', key: 'road', width: 100 },
   { title: '权属单位', dataIndex: 'owner', key: 'owner', width: 150 },
   { title: '养护单位', dataIndex: 'maintenance', key: 'maintenance', width: 180 },
+  { title: '管理单位', dataIndex: 'managementUnit', key: 'managementUnit', width: 180 },
   { title: '所属作业任务', dataIndex: 'task', key: 'task', width: 150 },
   { title: '审批状态', dataIndex: 'status', key: 'status', width: 100 },
   { title: '操作', key: 'action', width: 120, fixed: 'right' as const }
@@ -224,6 +225,7 @@ const dataSource = ref([
     road: '环城北路',
     owner: '建德市水务有限公司',
     maintenance: '建德市新园市政工程有限公司',
+    managementUnit: '新安江街道办事处',
     task: '建德市污水管网检测',
     status: '审核完成',
     canDelete: true
@@ -240,6 +242,7 @@ const dataSource = ref([
     road: '环城北路',
     owner: '建德市水务有限公司',
     maintenance: '建德市新园市政工程有限公司',
+    managementUnit: '新安江街道办事处',
     task: '建德市污水管网检测',
     status: '审核完成',
     canDelete: true
@@ -256,6 +259,7 @@ const dataSource = ref([
     road: '环城北路',
     owner: '建德市水务有限公司',
     maintenance: '建德市新园市政工程有限公司',
+    managementUnit: '新安江街道办事处',
     task: '建德市污水管网检测',
     status: '审核完成',
     canDelete: true
@@ -272,6 +276,7 @@ const dataSource = ref([
     road: '环城北路',
     owner: '建德市水务有限公司',
     maintenance: '建德市新园市政工程有限公司',
+    managementUnit: '新安江街道办事处',
     task: '建德市污水管网检测',
     status: '审核完成',
     canDelete: true
@@ -288,6 +293,7 @@ const dataSource = ref([
     road: '环城北路',
     owner: '建德市水务有限公司',
     maintenance: '建德市新园市政工程有限公司',
+    managementUnit: '新安江街道办事处',
     task: '建德市污水管网检测',
     status: '审核完成',
     canDelete: true
@@ -304,6 +310,7 @@ const dataSource = ref([
     road: '环城北路',
     owner: '建德市水务有限公司',
     maintenance: '建德市新园市政工程有限公司',
+    managementUnit: '新安江街道办事处',
     task: '建德市污水管网检测',
     status: '审核完成',
     canDelete: true
@@ -320,6 +327,7 @@ const dataSource = ref([
     road: '环城北路',
     owner: '建德市水务有限公司',
     maintenance: '建德市新园市政工程有限公司',
+    managementUnit: '新安江街道办事处',
     task: '建德市污水管网检测',
     status: '审核完成',
     canDelete: true
@@ -336,6 +344,7 @@ const dataSource = ref([
     road: '环城北路',
     owner: '建德市水务有限公司',
     maintenance: '建德市新园市政工程有限公司',
+    managementUnit: '新安江街道办事处',
     task: '建德市污水管网检测',
     status: '审核完成',
     canDelete: true
@@ -352,6 +361,7 @@ const dataSource = ref([
     road: '环城北路',
     owner: '建德市水务有限公司',
     maintenance: '建德市新园市政工程有限公司',
+    managementUnit: '新安江街道办事处',
     task: '建德市污水管网检测',
     status: '审核完成',
     canDelete: true
@@ -368,6 +378,7 @@ const dataSource = ref([
     road: '环城北路',
     owner: '建德市水务有限公司',
     maintenance: '建德市新园市政工程有限公司',
+    managementUnit: '新安江街道办事处',
     task: '建德市污水管网检测',
     status: '审核完成',
     canDelete: true
